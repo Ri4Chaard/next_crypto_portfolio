@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useFetching } from "@/hooks/useFetching";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Web3 from "web3";
 
 class Wallet {
@@ -15,12 +17,35 @@ export default function Home() {
     const [address, setAddress] = useState("");
     const [counter, setCounter] = useState(0);
     const [wallets, setWallets] = useState<any>([]);
-    const api =
-        "https://api.coingecko.com/api/v3/coins/list?include_platform=true";
+    const [contracts, setContracts] = useState<any>([]);
 
     const web3 = new Web3(
         "https://mainnet.infura.io/v3/4adb0c0cdb4d4d7c95db33dad1a57ae3"
     );
+
+    const [fetchContracts, isContLoading, contError] = useFetching(
+        async (url: string) => {
+            const response = await axios.get(url);
+            const filteredResponse = response.data.filter(
+                (token: any) => token.platforms.ethereum
+            );
+            setContracts(filteredResponse);
+            localStorage.setItem(
+                "fetchedContracts",
+                JSON.stringify(filteredResponse)
+            );
+        }
+    );
+
+    useEffect(() => {
+        const storedContracts = localStorage.getItem("fetchedContracts");
+        if (storedContracts) {
+            setContracts(JSON.parse(storedContracts));
+        } else
+            fetchContracts(
+                "https://api.coingecko.com/api/v3/coins/list?include_platform=true"
+            );
+    }, []);
 
     const getBalanceByAdress = async (address: string) => {
         await web3.eth.getBalance(address).then((res) => {
@@ -31,8 +56,6 @@ export default function Home() {
         setCounter(counter + 1);
         setAddress("");
     };
-
-    console.log(wallets);
 
     return (
         <div className="container mx-auto">
