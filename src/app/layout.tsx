@@ -17,15 +17,22 @@ export default function RootLayout({
         <html lang="en">
             <body className="min-h-screen flex flex-col bg-slate-900 text-white">
                 <header>
-                    <div className="container mx-auto">
-                        <Link href="/">Main</Link>
-                        <Link href="/about">About</Link>
+                    <div className="">
+                        <Link className="m-3" href="/">
+                            Main
+                        </Link>
+                        <Link className="m-3" href="/portfolio">
+                            Portfolio
+                        </Link>
+                        <Link className="m-3" href="/about">
+                            About
+                        </Link>
                     </div>
                 </header>
                 <main className="w-full flex flex-col flex-grow flex-shrink-0 ">
                     {children}
                 </main>
-                <footer className="container mx-auto">Footer</footer>
+                <footer className="">Footer</footer>
             </body>
         </html>
     );
