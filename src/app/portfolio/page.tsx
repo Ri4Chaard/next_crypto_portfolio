@@ -3,17 +3,35 @@ import { useFetching } from "@/hooks/useFetching";
 import { tokenAbi } from "@/interfaces";
 import { Wallet } from "@/models/Wallet";
 import { erc20 } from "@/data/tokens";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Web3 from "web3";
+import axios from "axios";
 
 export default function page() {
     const [address, setAddress] = useState("");
     const [counter, setCounter] = useState(0);
     const [wallets, setWallets] = useState<any>([]);
+    const [currInfo, setCurrInfo] = useState<any>();
+    const [refresh, setRefresh] = useState(false);
 
     const web3 = new Web3(
         "https://mainnet.infura.io/v3/4adb0c0cdb4d4d7c95db33dad1a57ae3"
     );
+
+    const [fetchCurrencies, isCurrLoading, curError] = useFetching(
+        async (url: string) => {
+            const response = await axios.get(url);
+            setCurrInfo(response.data);
+        }
+    );
+
+    useEffect(() => {
+        fetchCurrencies(
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
+        );
+    }, [refresh]);
+
+    console.log(currInfo);
 
     const [fetchWallet, isWalLoading, walError] = useFetching(
         async (address: string, contracts: any[]) => {
@@ -77,11 +95,61 @@ export default function page() {
                                 <h1 className="text-3xl mb-2">
                                     {wallet.address}
                                 </h1>
-                                <p>Balance: {wallet.balance} ETH</p>
+                                {currInfo
+                                    .filter((curr: any) => curr.symbol == "eth")
+                                    .map((curr: any) => (
+                                        <div
+                                            className="mb-4 flex items-center text-2xl"
+                                            key={curr.id}
+                                        >
+                                            <img
+                                                className="w-24 h-24 mr-2"
+                                                src={curr.image}
+                                            />
+                                            <p className="mr-2">
+                                                Ethereum balance:{" "}
+                                                {wallet.balance} ETH
+                                            </p>
+                                            <p>
+                                                ~$
+                                                {(
+                                                    wallet.balance *
+                                                    curr.current_price
+                                                ).toFixed(4)}
+                                            </p>
+                                        </div>
+                                    ))}
+                                <p className="text-xl mb-3">Other tokens</p>
                                 {wallet.tokens.map((token: any) => (
-                                    <p key={token.id}>
-                                        {token.id}: {token.balance}
-                                    </p>
+                                    <div className="mb-2" key={token.id}>
+                                        {currInfo
+                                            .filter(
+                                                (curr: any) =>
+                                                    curr.symbol == token.id
+                                            )
+                                            .map((curr: any) => (
+                                                <div
+                                                    className="flex items-center"
+                                                    key={curr.id}
+                                                >
+                                                    <img
+                                                        className="w-12 h-12 mr-2"
+                                                        src={curr.image}
+                                                    />
+                                                    <p className="mr-2">
+                                                        {curr.name}:{" "}
+                                                        {token.balance}
+                                                    </p>
+                                                    <p>
+                                                        ~$
+                                                        {(
+                                                            token.balance *
+                                                            curr.current_price
+                                                        ).toFixed(4)}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                    </div>
                                 ))}
                             </div>
                         ))}
