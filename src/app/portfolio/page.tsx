@@ -6,6 +6,8 @@ import { erc20 } from "@/data/tokens";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import axios from "axios";
+import walletImg from "@/icons/wallet.png";
+import Image from "next/image";
 
 export default function page() {
     const [address, setAddress] = useState("");
@@ -36,8 +38,10 @@ export default function page() {
     const [fetchWallet, isWalLoading, walError] = useFetching(
         async (address: string, contracts: any[]) => {
             const ethBal = await web3.eth.getBalance(address);
-            const balance = web3.utils.fromWei(ethBal, "ether");
-            const tokenBalances: object[] = [];
+            const ethBalance = web3.utils.fromWei(ethBal, "ether");
+            const tokenBalances: object[] = [
+                { id: "eth", balance: +ethBalance },
+            ];
             console.log("worked!");
 
             const delay = (ms: number) =>
@@ -59,8 +63,16 @@ export default function page() {
 
                 await delay(500);
             }
+            let balance: number = 0;
+            tokenBalances.map((token: any) =>
+                currInfo
+                    .filter((curr: any) => curr.symbol == token.id)
+                    .map((curr: any) => {
+                        balance += token.balance * curr.current_price;
+                    })
+            );
 
-            const wallet = new Wallet(address, +balance, tokenBalances);
+            const wallet = new Wallet(address, balance, tokenBalances);
             setWallets([...wallets, wallet]);
         }
     );
@@ -83,7 +95,7 @@ export default function page() {
                     onChange={(e) => setAddress(e.target.value)}
                 />
                 <button onClick={() => getBalanceByAdress(address)}>
-                    Press me
+                    Add wallet
                 </button>
                 <p>{counter}</p>
                 {isWalLoading ? (
@@ -91,66 +103,78 @@ export default function page() {
                 ) : (
                     <>
                         {wallets.map((wallet: Wallet, index: number) => (
-                            <div key={index} className="mb-4">
-                                <h1 className="text-3xl mb-2">
+                            <div
+                                key={index}
+                                className="mb-4 border border-solid border-cyan-600"
+                            >
+                                <h1 className="text-2xl bg-cyan-600 p-3">
                                     {wallet.address}
                                 </h1>
-                                {currInfo
-                                    .filter((curr: any) => curr.symbol == "eth")
-                                    .map((curr: any) => (
-                                        <div
-                                            className="mb-4 flex items-center text-2xl"
-                                            key={curr.id}
-                                        >
-                                            <img
-                                                className="w-24 h-24 mr-2"
-                                                src={curr.image}
+                                <div className="flex p-3">
+                                    <div className="w-1/2 pr-3 border-r border-solid border-slate-800">
+                                        <p className="text-2xl mb-2">
+                                            Overview
+                                        </p>
+                                        <div className="flex justify-between mb-2">
+                                            <Image
+                                                width={70}
+                                                height={70}
+                                                src={walletImg}
+                                                alt="wallet icon"
+                                                className="ml-2"
                                             />
-                                            <p className="mr-2">
-                                                Ethereum balance:{" "}
-                                                {wallet.balance} ETH
-                                            </p>
-                                            <p>
-                                                ~$
-                                                {(
-                                                    wallet.balance *
-                                                    curr.current_price
-                                                ).toFixed(4)}
-                                            </p>
+                                            <div>
+                                                <p className="text-xl text-slate-400 text-right mb-1">
+                                                    Wallet balance
+                                                </p>
+                                                <p className="text-3xl ">
+                                                    ${wallet.balance.toFixed(4)}
+                                                </p>
+                                            </div>
                                         </div>
-                                    ))}
-                                <p className="text-xl mb-3">Other tokens</p>
-                                {wallet.tokens.map((token: any) => (
-                                    <div className="mb-2" key={token.id}>
-                                        {currInfo
-                                            .filter(
-                                                (curr: any) =>
-                                                    curr.symbol == token.id
-                                            )
-                                            .map((curr: any) => (
-                                                <div
-                                                    className="flex items-center"
-                                                    key={curr.id}
-                                                >
-                                                    <img
-                                                        className="w-12 h-12 mr-2"
-                                                        src={curr.image}
-                                                    />
-                                                    <p className="mr-2">
-                                                        {curr.name}:{" "}
-                                                        {token.balance}
-                                                    </p>
-                                                    <p>
-                                                        ~$
-                                                        {(
-                                                            token.balance *
-                                                            curr.current_price
-                                                        ).toFixed(4)}
-                                                    </p>
-                                                </div>
-                                            ))}
+                                        <p className="text-2xl font-bold border-b border-solid border-slate-800">
+                                            Token holdings
+                                        </p>
+                                        {wallet.tokens.map((token: any) => (
+                                            <div
+                                                className="py-2 border-b border-solid border-slate-800"
+                                                key={token.id}
+                                            >
+                                                {currInfo
+                                                    .filter(
+                                                        (curr: any) =>
+                                                            curr.symbol ==
+                                                            token.id
+                                                    )
+                                                    .map((curr: any) => (
+                                                        <div
+                                                            className="flex items-center justify-between"
+                                                            key={curr.id}
+                                                        >
+                                                            <img
+                                                                className="w-12 h-12 mr-2"
+                                                                src={curr.image}
+                                                            />
+                                                            <p className="mr-2">
+                                                                {curr.name}:{" "}
+                                                                {token.balance}
+                                                            </p>
+                                                            <p>
+                                                                ~$
+                                                                {(
+                                                                    token.balance *
+                                                                    curr.current_price
+                                                                ).toFixed(4)}
+                                                            </p>
+                                                        </div>
+                                                    ))}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                    <div className="w-1/2">
+                                        <p>Chart here</p>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </>
