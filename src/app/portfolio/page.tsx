@@ -105,17 +105,15 @@ export default function page() {
                         {wallets.map((wallet: Wallet, index: number) => (
                             <div
                                 key={index}
-                                className="mb-4 border border-solid border-cyan-600"
+                                className="mb-4 border border-solid border-cyan-600 rounded-b-"
                             >
                                 <h1 className="text-2xl bg-cyan-600 p-3">
                                     {wallet.address}
                                 </h1>
-                                <div className="flex p-3">
-                                    <div className="w-1/2 pr-3 border-r border-solid border-slate-800">
-                                        <p className="text-2xl mb-2">
-                                            Overview
-                                        </p>
-                                        <div className="flex justify-between mb-2">
+                                <div className="flex">
+                                    <div className="w-1/2 border-r border-solid border-slate-800">
+                                        <p className="text-2xl p-3">Overview</p>
+                                        <div className="flex justify-between p-3">
                                             <Image
                                                 width={70}
                                                 height={70}
@@ -123,7 +121,7 @@ export default function page() {
                                                 alt="wallet icon"
                                                 className="ml-2"
                                             />
-                                            <div>
+                                            <div className="p-3">
                                                 <p className="text-xl text-slate-400 text-right mb-1">
                                                     Wallet balance
                                                 </p>
@@ -132,44 +130,60 @@ export default function page() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <p className="text-2xl font-bold border-b border-solid border-slate-800">
+                                        <p className="text-2xl p-3 font-bold border-b border-solid border-slate-800">
                                             Token holdings
                                         </p>
-                                        {wallet.tokens.map((token: any) => (
-                                            <div
-                                                className="py-2 border-b border-solid border-slate-800"
-                                                key={token.id}
-                                            >
-                                                {currInfo
-                                                    .filter(
-                                                        (curr: any) =>
-                                                            curr.symbol ==
-                                                            token.id
-                                                    )
-                                                    .map((curr: any) => (
-                                                        <div
-                                                            className="flex items-center justify-between"
-                                                            key={curr.id}
-                                                        >
-                                                            <img
-                                                                className="w-12 h-12 mr-2"
-                                                                src={curr.image}
-                                                            />
-                                                            <p className="mr-2">
-                                                                {curr.name}:{" "}
-                                                                {token.balance}
-                                                            </p>
-                                                            <p>
-                                                                ~$
-                                                                {(
-                                                                    token.balance *
-                                                                    curr.current_price
-                                                                ).toFixed(4)}
-                                                            </p>
-                                                        </div>
-                                                    ))}
-                                            </div>
-                                        ))}
+                                        {wallet.tokens.map(
+                                            (token: any) =>
+                                                token.balance > 0 && (
+                                                    <div
+                                                        className="p-3 border-b border-solid border-slate-800"
+                                                        key={token.id}
+                                                    >
+                                                        {currInfo
+                                                            .filter(
+                                                                (curr: any) =>
+                                                                    curr.symbol ==
+                                                                    token.id
+                                                            )
+                                                            .map(
+                                                                (curr: any) => (
+                                                                    <div
+                                                                        className="flex items-center justify-between"
+                                                                        key={
+                                                                            curr.id
+                                                                        }
+                                                                    >
+                                                                        <img
+                                                                            className="w-12 h-12 mr-2"
+                                                                            src={
+                                                                                curr.image
+                                                                            }
+                                                                        />
+                                                                        <p className="mr-2">
+                                                                            {
+                                                                                curr.name
+                                                                            }
+                                                                            :{" "}
+                                                                            {
+                                                                                token.balance
+                                                                            }
+                                                                        </p>
+                                                                        <p>
+                                                                            ~$
+                                                                            {(
+                                                                                token.balance *
+                                                                                curr.current_price
+                                                                            ).toFixed(
+                                                                                4
+                                                                            )}
+                                                                        </p>
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                    </div>
+                                                )
+                                        )}
                                     </div>
                                     <div className="w-1/2">
                                         <p>Chart here</p>
