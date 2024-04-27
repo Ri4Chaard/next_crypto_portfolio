@@ -8,6 +8,7 @@ import Web3 from "web3";
 import axios from "axios";
 import walletImg from "@/icons/wallet.png";
 import Image from "next/image";
+import { TokensPieChart } from "@/components/TokensPieChart";
 
 export default function page() {
     const [address, setAddress] = useState("");
@@ -185,8 +186,18 @@ export default function page() {
                                                 )
                                         )}
                                     </div>
-                                    <div className="w-1/2">
-                                        <p>Chart here</p>
+                                    <div className="w-1/2 flex flex-col items-center">
+                                        <div className="h-80">
+                                            <TokensPieChart
+                                                tokens={wallet.tokens.filter(
+                                                    (token: any) =>
+                                                        token.balance > 0
+                                                )}
+                                            />
+                                        </div>
+                                        <div>
+                                            <p>Markets here</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
