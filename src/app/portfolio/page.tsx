@@ -15,6 +15,7 @@ export default function page() {
     const [counter, setCounter] = useState(0);
     const [wallets, setWallets] = useState<any>([]);
     const [currInfo, setCurrInfo] = useState<any>();
+    const [txList, setTxList] = useState<any>();
     const [refresh, setRefresh] = useState(false);
 
     const web3 = new Web3(
@@ -28,22 +29,37 @@ export default function page() {
         }
     );
 
-    useEffect(() => {
-        fetchCurrencies(
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
-        );
-    }, [refresh]);
-
-    console.log(currInfo);
+    const [fetchTxList, isTxListLoading, txListError] = useFetching(
+        async (address: string) => {
+            const response = await axios.get(
+                `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=WFNDI727VR689UEXM7YSER7T542PRRW4YN`
+            );
+            setTxList({
+                address: address,
+                transactions: response.data.result,
+            });
+        }
+    );
 
     const [fetchWallet, isWalLoading, walError] = useFetching(
         async (address: string, contracts: any[]) => {
             const ethBal = await web3.eth.getBalance(address);
             const ethBalance = web3.utils.fromWei(ethBal, "ether");
+            let ethBalanceInUSD: number = 0;
+            currInfo
+                .filter((curr: any) => curr.symbol == "eth")
+                .map(
+                    (curr: any) =>
+                        (ethBalanceInUSD = +ethBalance * curr.current_price)
+                );
+
             const tokenBalances: object[] = [
-                { id: "eth", balance: +ethBalance },
+                {
+                    id: "eth",
+                    balance: +ethBalance,
+                    balanceInUSD: ethBalanceInUSD,
+                },
             ];
-            console.log("worked!");
 
             const delay = (ms: number) =>
                 new Promise((resolve) => setTimeout(resolve, ms));
@@ -60,29 +76,51 @@ export default function page() {
                     .decimals()
                     .call();
                 const finres = Number(tokenBal) * 10 ** -Number(decimals);
-                tokenBalances.push({ id: contr.id, balance: finres });
+                let balOfToken: number = 0;
+                currInfo
+                    .filter((curr: any) => curr.symbol == contr.id)
+                    .map(
+                        (curr: any) =>
+                            (balOfToken = finres * curr.current_price)
+                    );
+                tokenBalances.push({
+                    id: contr.id,
+                    balance: finres,
+                    balanceInUSD: balOfToken,
+                });
 
                 await delay(500);
             }
             let balance: number = 0;
-            tokenBalances.map((token: any) =>
-                currInfo
-                    .filter((curr: any) => curr.symbol == token.id)
-                    .map((curr: any) => {
-                        balance += token.balance * curr.current_price;
-                    })
-            );
-
-            const wallet = new Wallet(address, balance, tokenBalances);
+            tokenBalances.map((token: any) => (balance += token.balanceInUSD));
+            const wallet = new Wallet(address, balance, tokenBalances, txList);
             setWallets([...wallets, wallet]);
         }
     );
 
+    useEffect(() => {
+        fetchCurrencies(
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
+        );
+    }, [refresh]);
+
+    useEffect(() => {
+        if (txList)
+            wallets
+                .filter((wallet: any) => wallet.address == txList.address)
+                .map(
+                    (wallet: any) => (wallet.transactions = txList.transactions)
+                );
+    }, [wallets]);
+
     const getBalanceByAdress = async (address: string) => {
         fetchWallet(address, erc20);
+        fetchTxList(address);
+
         setCounter(counter + 1);
         setAddress("");
     };
+    console.log(txList);
 
     console.log(wallets);
 
@@ -100,7 +138,13 @@ export default function page() {
                 </button>
                 <p>{counter}</p>
                 {isWalLoading ? (
-                    <div>Loading...</div>
+                    <>
+                        {isTxListLoading ? (
+                            <div>Last transactions loading...</div>
+                        ) : (
+                            <div>Wallet info loading...</div>
+                        )}
+                    </>
                 ) : (
                     <>
                         {wallets.map((wallet: Wallet, index: number) => (
@@ -196,7 +240,7 @@ export default function page() {
                                             />
                                         </div>
                                         <div>
-                                            <p>Markets here</p>
+                                            <p>Last transactions here</p>
                                         </div>
                                     </div>
                                 </div>

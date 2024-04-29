@@ -65,7 +65,7 @@ export const TokensPieChart = ({ tokens }: TokensPieChart) => {
         datasets: [
             {
                 label: "Balance",
-                data: tokens.map((token: any) => token.balance),
+                data: tokens.map((token: any) => token.balanceInUSD),
                 backgroundColor: tokens.map(
                     (token: any) =>
                         colors.filter((color: any) => token.id == color.id)[0]
