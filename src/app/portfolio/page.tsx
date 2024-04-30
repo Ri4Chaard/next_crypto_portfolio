@@ -9,13 +9,14 @@ import axios from "axios";
 import walletImg from "@/icons/wallet.png";
 import Image from "next/image";
 import { TokensPieChart } from "@/components/TokensPieChart";
+import { TxList } from "@/components/TxList";
 
 export default function page() {
     const [address, setAddress] = useState("");
     const [counter, setCounter] = useState(0);
     const [wallets, setWallets] = useState<any>([]);
     const [currInfo, setCurrInfo] = useState<any>();
-    const [txList, setTxList] = useState<any>();
+    const [txList, setTxList] = useState<any>(null);
     const [refresh, setRefresh] = useState(false);
 
     const web3 = new Web3(
@@ -107,15 +108,16 @@ export default function page() {
     useEffect(() => {
         if (txList)
             wallets
-                .filter((wallet: any) => wallet.address == txList.address)
+                .filter((wallet: any) => wallet.address === txList.address)
                 .map(
                     (wallet: any) => (wallet.transactions = txList.transactions)
                 );
-    }, [wallets]);
+        setTxList(null);
+    }, [txList]);
 
     const getBalanceByAdress = async (address: string) => {
-        fetchWallet(address, erc20);
-        fetchTxList(address);
+        await fetchWallet(address, erc20);
+        await fetchTxList(address);
 
         setCounter(counter + 1);
         setAddress("");
@@ -138,13 +140,7 @@ export default function page() {
                 </button>
                 <p>{counter}</p>
                 {isWalLoading ? (
-                    <>
-                        {isTxListLoading ? (
-                            <div>Last transactions loading...</div>
-                        ) : (
-                            <div>Wallet info loading...</div>
-                        )}
-                    </>
+                    <div>Wallet info loading...</div>
                 ) : (
                     <>
                         {wallets.map((wallet: Wallet, index: number) => (
@@ -239,9 +235,24 @@ export default function page() {
                                                 )}
                                             />
                                         </div>
-                                        <div>
-                                            <p>Last transactions here</p>
-                                        </div>
+
+                                        {isTxListLoading ? (
+                                            <div>
+                                                Last transactions loading...
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {txListError ? (
+                                                    <p>{txListError.message}</p>
+                                                ) : (
+                                                    <TxList
+                                                        txList={
+                                                            wallet.transactions
+                                                        }
+                                                    />
+                                                )}
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>
