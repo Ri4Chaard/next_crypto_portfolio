@@ -33,7 +33,7 @@ export default function page() {
     const [fetchTxList, isTxListLoading, txListError] = useFetching(
         async (address: string) => {
             const response = await axios.get(
-                `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=WFNDI727VR689UEXM7YSER7T542PRRW4YN`
+                `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=WFNDI727VR689UEXM7YSER7T542PRRW4YN`
             );
             setTxList({
                 address: address,
@@ -146,7 +146,9 @@ export default function page() {
                         {wallets.map((wallet: Wallet, index: number) => (
                             <div
                                 key={index}
-                                className="mb-4 border border-solid border-cyan-600 rounded-b-"
+                                className="mb-4 "
+                                // border border-solid border-cyan-600 rounded-b
+                                // "
                             >
                                 <h1 className="text-2xl bg-cyan-600 p-3">
                                     {wallet.address}
