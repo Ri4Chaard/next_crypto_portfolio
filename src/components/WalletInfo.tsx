@@ -12,6 +12,7 @@ interface WalletInfo {
     currInfo: any;
     isTxListLoading: boolean;
     txListError: any;
+    deleteWal: any;
 }
 
 export const WalletInfo = ({
@@ -21,12 +22,16 @@ export const WalletInfo = ({
     currInfo,
     isTxListLoading,
     txListError,
+    deleteWal,
 }: WalletInfo) => {
     return (
-        <div className="mb-4">
+        <div key={index} className="mb-4">
             <div className="flex justify-between items-center bg-cyan-600 p-3">
                 <h1 className="text-2xl ">{wallet.address}</h1>
-                <p>{wallet.lastUpdate}</p>
+                <div className="flex">
+                    <p className="mr-2">{wallet.lastUpdate}</p>
+                    <button onClick={deleteWal}>X</button>
+                </div>
             </div>
             <div className="flex">
                 <div className="w-1/2 border-r border-solid border-slate-800">

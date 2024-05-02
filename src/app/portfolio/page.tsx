@@ -142,11 +142,30 @@ export default function page() {
     }, [txList]);
 
     const getBalanceByAdress = async (address: string) => {
+        setSelectedWallet(selectedWallet + 1);
         await fetchWallet(address, erc20);
         await fetchTxList(address);
         setAddress("");
     };
-    console.log(wallets);
+    const deleteWallet = (index: number) => {
+        setWallets(
+            wallets.filter(
+                (wallet: any, walIndex: number) => index !== walIndex
+            )
+        );
+
+        if (selectedWallet != 0) setSelectedWallet(selectedWallet - 1);
+        console.log(wallets);
+
+        localStorage.setItem(
+            "wallets",
+            JSON.stringify(
+                wallets.filter(
+                    (wallet: any, walIndex: number) => index !== walIndex
+                )
+            )
+        );
+    };
 
     return (
         <div className="container mx-auto">
@@ -198,6 +217,9 @@ export default function page() {
                                                     isTxListLoading
                                                 }
                                                 txListError={txListError}
+                                                deleteWal={() =>
+                                                    deleteWallet(index)
+                                                }
                                             />
                                         )
                                 )}
