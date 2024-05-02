@@ -6,17 +6,12 @@ import { erc20 } from "@/data/tokens";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import axios from "axios";
-import walletImg from "@/icons/wallet.png";
-import Image from "next/image";
-import { TokensPieChart } from "@/components/TokensPieChart";
-import { TxList } from "@/components/TxList";
-import { WalletTokenList } from "@/components/WalletTokenList";
-import { EthGasInfo } from "@/components/EthGasInfo";
+import { WalletInfo } from "@/components/WalletInfo";
 
 export default function page() {
     const [address, setAddress] = useState("");
-    const [counter, setCounter] = useState(0);
     const [wallets, setWallets] = useState<any>([]);
+    const [selectedWallet, setSelectedWallet] = useState(0);
     const [currInfo, setCurrInfo] = useState<any>();
     const [txList, setTxList] = useState<any>(null);
     const [gasPrice, setGasPrice] = useState(0);
@@ -30,6 +25,8 @@ export default function page() {
         async (url: string) => {
             const response = await axios.get(url);
             setCurrInfo(response.data);
+            const gas = await web3.eth.getGasPrice();
+            setGasPrice(Number(web3.utils.fromWei(gas, "ether")));
         }
     );
 
@@ -45,12 +42,22 @@ export default function page() {
         }
     );
 
+    const addTimeStamp = () => {
+        let date = new Date();
+        const lastUpdate = `Last update: ${
+            date.getDate() < 10 ? "0" : ""
+        }${date.getDate()}.${date.getMonth() < 10 ? "0" : ""}${
+            date.getMonth() + 1
+        } at ${date.getHours() < 10 ? "0" : ""}${date.getHours()}:${
+            date.getMinutes() < 10 ? "0" : ""
+        }${date.getMinutes()}`;
+        return lastUpdate;
+    };
+
     const [fetchWallet, isWalLoading, walError] = useFetching(
         async (address: string, contracts: any[]) => {
             const ethBal = await web3.eth.getBalance(address);
             const ethBalance = web3.utils.fromWei(ethBal, "ether");
-            const gas = await web3.eth.getGasPrice();
-            setGasPrice(Number(web3.utils.fromWei(gas, "ether")));
             let ethBalanceInUSD: number = 0;
             currInfo
                 .filter((curr: any) => curr.symbol == "eth")
@@ -99,10 +106,22 @@ export default function page() {
             }
             let balance: number = 0;
             tokenBalances.map((token: any) => (balance += token.balanceInUSD));
-            const wallet = new Wallet(address, balance, tokenBalances, txList);
+            const lastUpdate = addTimeStamp();
+            const wallet = new Wallet(
+                address,
+                balance,
+                tokenBalances,
+                lastUpdate,
+                txList
+            );
             setWallets([...wallets, wallet]);
         }
     );
+
+    useEffect(() => {
+        const storedWallets = localStorage.getItem("wallets");
+        if (storedWallets) setWallets(JSON.parse(storedWallets));
+    }, []);
 
     useEffect(() => {
         fetchCurrencies(
@@ -117,18 +136,16 @@ export default function page() {
                 .map(
                     (wallet: any) => (wallet.transactions = txList.transactions)
                 );
+        if (wallets.length > 0)
+            localStorage.setItem("wallets", JSON.stringify(wallets));
         setTxList(null);
     }, [txList]);
 
     const getBalanceByAdress = async (address: string) => {
         await fetchWallet(address, erc20);
         await fetchTxList(address);
-
-        setCounter(counter + 1);
         setAddress("");
     };
-    console.log(txList);
-
     console.log(wallets);
 
     return (
@@ -143,90 +160,49 @@ export default function page() {
                 <button onClick={() => getBalanceByAdress(address)}>
                     Add wallet
                 </button>
-                <p>{counter}</p>
-                {isWalLoading ? (
-                    <div>Wallet info loading...</div>
+                <div className="flex">
+                    <button
+                        disabled={selectedWallet == 0}
+                        onClick={() => setSelectedWallet(selectedWallet - 1)}
+                    >
+                        prev wallet
+                    </button>
+                    <p>
+                        {selectedWallet + 1}/{wallets.length}
+                    </p>
+                    <button
+                        disabled={selectedWallet == wallets.length - 1}
+                        onClick={() => setSelectedWallet(selectedWallet + 1)}
+                    >
+                        next wallet
+                    </button>
+                </div>
+                {isCurrLoading ? (
+                    <div>Curr info loading...</div>
                 ) : (
                     <>
-                        {wallets.map((wallet: Wallet, index: number) => (
-                            <div key={index} className="mb-4">
-                                <h1 className="text-2xl bg-cyan-600 p-3">
-                                    {wallet.address}
-                                </h1>
-                                <div className="flex">
-                                    <div className="w-1/2 border-r border-solid border-slate-800">
-                                        <div className="flex flex-col justify-around h-96">
-                                            <p className="text-3xl font-bold mb-3">
-                                                Overview
-                                            </p>
-                                            <div className="flex flex-col  p-3">
-                                                <div className="flex justify-between">
-                                                    <Image
-                                                        width={70}
-                                                        height={70}
-                                                        src={walletImg}
-                                                        alt="wallet icon"
-                                                        className="ml-2"
-                                                    />
-                                                    <div className="mb-3">
-                                                        <p className="text-xl text-slate-400 text-right mb-1">
-                                                            Wallet balance
-                                                        </p>
-                                                        <p className="text-3xl ">
-                                                            $
-                                                            {wallet.balance.toFixed(
-                                                                4
-                                                            )}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="flex">
-                                                <EthGasInfo
-                                                    ethInfo={currInfo.filter(
-                                                        (token: any) =>
-                                                            token.symbol ==
-                                                            "eth"
-                                                    )}
-                                                    gasPrice={gasPrice}
-                                                />
-                                            </div>
-                                        </div>
-                                        {isTxListLoading ? (
-                                            <div>
-                                                Last transactions loading...
-                                            </div>
-                                        ) : (
-                                            <>
-                                                {txListError ? (
-                                                    <p>{txListError.message}</p>
-                                                ) : (
-                                                    <TxList
-                                                        txList={
-                                                            wallet.transactions
-                                                        }
-                                                    />
-                                                )}
-                                            </>
-                                        )}
-                                    </div>
-                                    <div className="w-1/2 flex flex-col items-center">
-                                        <div className="h-96 p-3 w-full flex justify-center">
-                                            <TokensPieChart
-                                                tokens={wallet.tokens.filter(
-                                                    (token: any) =>
-                                                        token.balance > 0
-                                                )}
+                        {isWalLoading ? (
+                            <div>Wallet info loading...</div>
+                        ) : (
+                            <>
+                                {wallets.map(
+                                    (wallet: Wallet, index: number) =>
+                                        selectedWallet == index && (
+                                            <WalletInfo
+                                                key={index}
+                                                wallet={wallet}
+                                                index={index}
+                                                gasPrice={gasPrice}
+                                                currInfo={currInfo}
+                                                isTxListLoading={
+                                                    isTxListLoading
+                                                }
+                                                txListError={txListError}
                                             />
-                                        </div>
-                                        <WalletTokenList
-                                            wallet={wallet}
-                                            currInfo={currInfo}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                                        )
+                                )}
+                            </>
+                        )}
                     </>
                 )}
             </div>

@@ -9,8 +9,6 @@ interface EthGasInfo {
     gasPrice: number;
 }
 export const EthGasInfo = ({ ethInfo, gasPrice }: EthGasInfo) => {
-    console.log(ethInfo);
-
     return (
         <div className="flex flex-col p-3 justify-between w-full border-t border-solid border-slate-800">
             <div className="flex justify-between text-xl text-slate-400">
