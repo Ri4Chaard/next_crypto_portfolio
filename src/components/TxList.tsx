@@ -5,8 +5,6 @@ interface TxList {
     txList: any;
 }
 export const TxList = ({ txList }: TxList) => {
-    console.log(txList);
-
     return (
         <div className="w-full">
             <p className="p-3 text-2xl font-bold border-y border-solid border-slate-800">

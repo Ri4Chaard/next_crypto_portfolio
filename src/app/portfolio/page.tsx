@@ -114,7 +114,17 @@ export default function page() {
                 lastUpdate,
                 txList
             );
-            setWallets([...wallets, wallet]);
+            if (
+                wallets.filter((wal: Wallet) => wallet.address === wal.address)
+                    .length > 0
+            ) {
+                let indexOfUpdate: number = 0;
+                wallets.map((wal: Wallet, index: number) => {
+                    if (wal.address == wallet.address) indexOfUpdate = index;
+                });
+                wallets[indexOfUpdate] = wallet;
+                setWallets(wallets);
+            } else setWallets([...wallets, wallet]);
         }
     );
 
@@ -136,10 +146,13 @@ export default function page() {
                 .map(
                     (wallet: any) => (wallet.transactions = txList.transactions)
                 );
-        if (wallets.length > 0)
-            localStorage.setItem("wallets", JSON.stringify(wallets));
         setTxList(null);
     }, [txList]);
+
+    useEffect(() => {
+        if (wallets.length > 0)
+            localStorage.setItem("wallets", JSON.stringify(wallets));
+    }, [wallets, txList]);
 
     const getBalanceByAdress = async (address: string) => {
         setSelectedWallet(selectedWallet + 1);
@@ -150,21 +163,23 @@ export default function page() {
     const deleteWallet = (index: number) => {
         setWallets(
             wallets.filter(
-                (wallet: any, walIndex: number) => index !== walIndex
+                (wallet: Wallet, walIndex: number) => index !== walIndex
             )
         );
-
         if (selectedWallet != 0) setSelectedWallet(selectedWallet - 1);
-        console.log(wallets);
-
         localStorage.setItem(
             "wallets",
             JSON.stringify(
                 wallets.filter(
-                    (wallet: any, walIndex: number) => index !== walIndex
+                    (wallet: Wallet, walIndex: number) => index !== walIndex
                 )
             )
         );
+    };
+
+    const refreshWallet = async (index: number) => {
+        await fetchWallet(wallets[index].address, erc20);
+        await fetchTxList(wallets[index].address);
     };
 
     return (
@@ -208,9 +223,8 @@ export default function page() {
                                     (wallet: Wallet, index: number) =>
                                         selectedWallet == index && (
                                             <WalletInfo
-                                                key={index}
+                                                key={wallet.address}
                                                 wallet={wallet}
-                                                index={index}
                                                 gasPrice={gasPrice}
                                                 currInfo={currInfo}
                                                 isTxListLoading={
@@ -220,6 +234,9 @@ export default function page() {
                                                 deleteWal={() =>
                                                     deleteWallet(index)
                                                 }
+                                                refreshWal={() => {
+                                                    refreshWallet(index);
+                                                }}
                                             />
                                         )
                                 )}

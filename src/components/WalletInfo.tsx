@@ -7,28 +7,31 @@ import { WalletTokenList } from "./WalletTokenList";
 
 interface WalletInfo {
     wallet: any;
-    index: number;
     gasPrice: number;
     currInfo: any;
     isTxListLoading: boolean;
     txListError: any;
     deleteWal: any;
+    refreshWal: any;
 }
 
 export const WalletInfo = ({
     wallet,
-    index,
     gasPrice,
     currInfo,
     isTxListLoading,
     txListError,
     deleteWal,
+    refreshWal,
 }: WalletInfo) => {
     return (
-        <div key={index} className="mb-4">
+        <div className="mb-4">
             <div className="flex justify-between items-center bg-cyan-600 p-3">
                 <h1 className="text-2xl ">{wallet.address}</h1>
                 <div className="flex">
+                    <button className="mr-2" onClick={refreshWal}>
+                        O
+                    </button>
                     <p className="mr-2">{wallet.lastUpdate}</p>
                     <button onClick={deleteWal}>X</button>
                 </div>
