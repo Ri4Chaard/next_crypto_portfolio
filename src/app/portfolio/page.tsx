@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import axios from "axios";
 import { WalletInfo } from "@/components/WalletInfo";
+import { PortfolioTopbar } from "@/components/PortfolioTopbar";
 
 export default function page() {
     const [address, setAddress] = useState("");
@@ -155,7 +156,7 @@ export default function page() {
     }, [wallets, txList]);
 
     const getBalanceByAdress = async (address: string) => {
-        setSelectedWallet(selectedWallet + 1);
+        setSelectedWallet(wallets.length);
         await fetchWallet(address, erc20);
         await fetchTxList(address);
         setAddress("");
@@ -185,32 +186,14 @@ export default function page() {
     return (
         <div className="container mx-auto">
             <div>
-                <input
-                    value={address}
-                    type="text"
-                    className="text-black"
-                    onChange={(e) => setAddress(e.target.value)}
+                <PortfolioTopbar
+                    wallets={wallets}
+                    address={address}
+                    setAddress={setAddress}
+                    addWallet={getBalanceByAdress}
+                    selectedWallet={selectedWallet}
+                    setSelectedWallet={setSelectedWallet}
                 />
-                <button onClick={() => getBalanceByAdress(address)}>
-                    Add wallet
-                </button>
-                <div className="flex">
-                    <button
-                        disabled={selectedWallet == 0}
-                        onClick={() => setSelectedWallet(selectedWallet - 1)}
-                    >
-                        prev wallet
-                    </button>
-                    <p>
-                        {selectedWallet + 1}/{wallets.length}
-                    </p>
-                    <button
-                        disabled={selectedWallet == wallets.length - 1}
-                        onClick={() => setSelectedWallet(selectedWallet + 1)}
-                    >
-                        next wallet
-                    </button>
-                </div>
                 {isCurrLoading ? (
                     <div>Curr info loading...</div>
                 ) : (

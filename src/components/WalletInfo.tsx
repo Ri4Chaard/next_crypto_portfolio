@@ -39,7 +39,7 @@ export const WalletInfo = ({
             <div className="flex">
                 <div className="w-1/2 border-r border-solid border-slate-800">
                     <div className="flex flex-col justify-around h-96">
-                        <p className="text-3xl font-bold mb-3">Overview</p>
+                        <p className="text-2xl font-bold mb-3">Overview</p>
                         <div className="flex flex-col  p-3">
                             <div className="flex justify-between">
                                 <Image
