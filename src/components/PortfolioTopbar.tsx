@@ -26,7 +26,7 @@ export const PortfolioTopbar = ({
     const [modal, setModal] = useState(false);
     return (
         <>
-            <div className="p-3 border border-solid border-cyan-600 rounded-t flex items-center justify-between">
+            <div className="p-3 border-x border-b border-solid border-slate-800 flex items-center justify-between">
                 <p className="text-3xl font-bold">Your portfolio</p>
                 <div className="font-bold flex items-center text-xl text-cyan-600">
                     <button
@@ -48,34 +48,44 @@ export const PortfolioTopbar = ({
                         <ChevronRightIcon className="w-8 h-8" />
                     </button>
                 </div>
-
                 <button
-                    className="flex items-center text-green-700 font-bold hover:text-green-600"
+                    className="flex items-center text-green-700 font-bold hover:text-green-500"
                     onClick={() => setModal(!modal)}
                 >
                     <p className="mr-2">Add wallet</p>
-
                     <PlusCircleIcon className="w-8 h-8" />
                 </button>
             </div>
             <Modal visible={modal} setVisible={() => setModal(false)}>
                 <div className="flex flex-col">
                     <p className="text-2xl font-bold mb-3">New wallet</p>
+                    <p className="text-xl mb-3">Enter address of wallet</p>
                     <input
                         value={address}
                         type="text"
                         placeholder="0xXXX..."
-                        className="text-xl text-white w-96 p-1 border border-solid border-cyan-600 rounded bg-slate-900"
+                        className="mb-5 text-xl text-white w-96 p-1 border border-solid border-cyan-600 rounded bg-slate-900"
                         onChange={(e) => setAddress(e.target.value)}
                     />
-                    <button
-                        onClick={() => {
-                            addWallet(address);
-                            setModal(false);
-                        }}
-                    >
-                        Add wallet
-                    </button>
+                    <div className="flex flex-col">
+                        <button
+                            className="mb-5 p-3 font-bold border border-solid border-green-700 rounded hover:text-slate-900 hover:bg-green-700"
+                            onClick={() => {
+                                addWallet(address);
+                                setModal(false);
+                            }}
+                        >
+                            Add wallet
+                        </button>
+                        <button
+                            className="self-end"
+                            onClick={() => {
+                                setModal(false);
+                            }}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </Modal>
         </>

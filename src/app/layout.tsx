@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import "../styles/nullstyle.css";
 import Link from "next/link";
+import { WalletIcon } from "@heroicons/react/20/solid";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -17,16 +18,27 @@ export default function RootLayout({
         <html lang="en">
             <body className="min-h-screen flex flex-col bg-slate-900 text-white">
                 <header>
-                    <div className="">
-                        <Link className="m-3" href="/">
-                            Main
-                        </Link>
-                        <Link className="m-3" href="/portfolio">
-                            Portfolio
-                        </Link>
-                        <Link className="m-3" href="/about">
-                            About
-                        </Link>
+                    <div className="text-xl text-cyan-600 font-bold py-4 flex justify-between items-center border-b border-solid border-slate-800">
+                        <div>
+                            <Link className="mx-3 hover:text-cyan-400" href="/">
+                                Main
+                            </Link>
+                        </div>
+                        <div className="flex items-center">
+                            <Link
+                                className="mx-3 flex items-center hover:text-cyan-400"
+                                href="/portfolio"
+                            >
+                                <WalletIcon className="mr-2 w-8 h-8" />
+                                Portfolio
+                            </Link>
+                            <Link
+                                className="mx-3 hover:text-cyan-400"
+                                href="/about"
+                            >
+                                About
+                            </Link>
+                        </div>
                     </div>
                 </header>
                 <main className="w-full flex flex-col flex-grow flex-shrink-0 ">
