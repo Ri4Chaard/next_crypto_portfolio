@@ -57,7 +57,7 @@ export default function Home() {
                     <h1 className="text-3xl font-bold mb-5">
                         Cryptocurrency Prices
                     </h1>
-                    <div className="flex items-center justify-between text-white p-3 pb-6">
+                    <div className="flex items-center justify-end text-white p-3 pb-6">
                         <div className="flex items-center">
                             <p className="mr-2">Show rows:</p>
                             <select
@@ -73,15 +73,6 @@ export default function Home() {
                                     </option>
                                 ))}
                             </select>
-                        </div>
-                        <div className="flex items-center">
-                            <p className="pr-2">Search for token</p>
-                            <input
-                                className="p-1 mr-2 border border-solid border-cyan-600 rounded bg-slate-900"
-                                value={filter}
-                                onChange={handleFilterInput}
-                                placeholder="Type here.."
-                            />
                         </div>
                     </div>
                     <div className="flex flex-col items-center">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import { Refresher } from "./UI/Refresher";
 import { TokensContext } from "@/context";
+import { TokensSearch } from "./TokensSearch";
 
 export const HeaderNavbar = () => {
     const { tokError, upDate, setRefresh } = useContext(TokensContext);
@@ -14,7 +15,9 @@ export const HeaderNavbar = () => {
                     Main
                 </Link>
             </div>
-
+            <div className="font-normal">
+                <TokensSearch />
+            </div>
             <div className="flex items-center">
                 <Link
                     className="mx-3 flex items-center hover:text-cyan-400"
