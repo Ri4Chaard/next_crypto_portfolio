@@ -3,32 +3,23 @@ import { useFetching } from "@/hooks/useFetching";
 import { tokenAbi } from "@/interfaces";
 import { Wallet } from "@/models/Wallet";
 import { erc20 } from "@/data/tokens";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Web3 from "web3";
 import axios from "axios";
 import { WalletInfo } from "@/components/WalletInfo";
 import { PortfolioTopbar } from "@/components/PortfolioTopbar";
+import { TokensContext } from "@/context";
 
 export default function page() {
     const [address, setAddress] = useState("");
     const [wallets, setWallets] = useState<any>([]);
     const [selectedWallet, setSelectedWallet] = useState(0);
-    const [currInfo, setCurrInfo] = useState<any>();
     const [txList, setTxList] = useState<any>(null);
     const [gasPrice, setGasPrice] = useState(0);
-    const [refresh, setRefresh] = useState(false);
-
+    const { tokens, isTokLoading, tokError, refresh } =
+        useContext(TokensContext);
     const web3 = new Web3(
         "https://mainnet.infura.io/v3/4adb0c0cdb4d4d7c95db33dad1a57ae3"
-    );
-
-    const [fetchCurrencies, isCurrLoading, curError] = useFetching(
-        async (url: string) => {
-            const response = await axios.get(url);
-            setCurrInfo(response.data);
-            const gas = await web3.eth.getGasPrice();
-            setGasPrice(Number(web3.utils.fromWei(gas, "ether")));
-        }
     );
 
     const [fetchTxList, isTxListLoading, txListError] = useFetching(
@@ -55,12 +46,19 @@ export default function page() {
         return lastUpdate;
     };
 
+    const [fetchGasPrice, isGasPriceLoading, gasPriceError] = useFetching(
+        async () => {
+            const gas = await web3.eth.getGasPrice();
+            setGasPrice(Number(web3.utils.fromWei(gas, "ether")));
+        }
+    );
+
     const [fetchWallet, isWalLoading, walError] = useFetching(
         async (address: string, contracts: any[]) => {
             const ethBal = await web3.eth.getBalance(address);
             const ethBalance = web3.utils.fromWei(ethBal, "ether");
             let ethBalanceInUSD: number = 0;
-            currInfo
+            tokens
                 .filter((curr: any) => curr.symbol == "eth")
                 .map(
                     (curr: any) =>
@@ -91,7 +89,7 @@ export default function page() {
                     .call();
                 const finres = Number(tokenBal) * 10 ** -Number(decimals);
                 let balOfToken: number = 0;
-                currInfo
+                tokens
                     .filter((curr: any) => curr.symbol == contr.id)
                     .map(
                         (curr: any) =>
@@ -135,12 +133,6 @@ export default function page() {
     }, []);
 
     useEffect(() => {
-        fetchCurrencies(
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
-        );
-    }, [refresh]);
-
-    useEffect(() => {
         if (txList)
             wallets
                 .filter((wallet: any) => wallet.address === txList.address)
@@ -154,6 +146,10 @@ export default function page() {
         if (wallets.length > 0)
             localStorage.setItem("wallets", JSON.stringify(wallets));
     }, [wallets, txList]);
+
+    useEffect(() => {
+        fetchGasPrice();
+    }, [refresh]);
 
     const getBalanceByAdress = async (address: string) => {
         setSelectedWallet(wallets.length);
@@ -194,7 +190,7 @@ export default function page() {
                     selectedWallet={selectedWallet}
                     setSelectedWallet={setSelectedWallet}
                 />
-                {isCurrLoading ? (
+                {isTokLoading ? (
                     <div>Curr info loading...</div>
                 ) : (
                     <>
@@ -209,7 +205,11 @@ export default function page() {
                                                 key={wallet.address}
                                                 wallet={wallet}
                                                 gasPrice={gasPrice}
-                                                currInfo={currInfo}
+                                                gasPriceLoading={
+                                                    isGasPriceLoading
+                                                }
+                                                gasPriceError={gasPriceError}
+                                                currInfo={tokens}
                                                 isTxListLoading={
                                                     isTxListLoading
                                                 }

@@ -11,6 +11,8 @@ import { useState } from "react";
 interface WalletInfo {
     wallet: any;
     gasPrice: number;
+    gasPriceLoading: boolean;
+    gasPriceError: any;
     currInfo: any;
     isTxListLoading: boolean;
     txListError: any;
@@ -21,6 +23,8 @@ interface WalletInfo {
 export const WalletInfo = ({
     wallet,
     gasPrice,
+    gasPriceLoading,
+    gasPriceError,
     currInfo,
     isTxListLoading,
     txListError,
@@ -72,6 +76,8 @@ export const WalletInfo = ({
                                     (token: any) => token.symbol == "eth"
                                 )}
                                 gasPrice={gasPrice}
+                                gasPriceLoading={gasPriceLoading}
+                                gasPriceError={gasPriceError}
                             />
                         </div>
                     </div>

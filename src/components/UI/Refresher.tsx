@@ -16,7 +16,7 @@ export const Refresher = ({ tokError, upDate, setRefresh }: Refresher) => {
             )}
             <p className="pr-2">{upDate}</p>
             <ArrowPathIcon
-                className="h-5 w-5 cursor-pointer"
+                className="h-8 w-8 cursor-pointer hover:animate-spin"
                 onClick={() => setRefresh(true)}
             />
         </>

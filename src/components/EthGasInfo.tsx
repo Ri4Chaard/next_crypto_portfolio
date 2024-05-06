@@ -4,11 +4,19 @@ import {
     ArrowUpRightIcon,
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import { Loader } from "./UI/Loader";
 interface EthGasInfo {
     ethInfo: any;
     gasPrice: number;
+    gasPriceLoading: boolean;
+    gasPriceError: any;
 }
-export const EthGasInfo = ({ ethInfo, gasPrice }: EthGasInfo) => {
+export const EthGasInfo = ({
+    ethInfo,
+    gasPrice,
+    gasPriceLoading,
+    gasPriceError,
+}: EthGasInfo) => {
     return (
         <div className="flex flex-col p-3 justify-between w-full border-t border-solid border-slate-800">
             <div className="flex justify-between text-xl text-slate-400">
@@ -37,16 +45,22 @@ export const EthGasInfo = ({ ethInfo, gasPrice }: EthGasInfo) => {
                         {"% (24h)"}
                     </p>
                 </div>
-                <div className="flex items-center">
-                    <Image
-                        className="mr-2"
-                        src={ethLogo}
-                        width={40}
-                        height={40}
-                        alt="gasPrice"
-                    />
-                    <p className="text-2xl">{gasPrice}</p>
-                </div>
+                {gasPriceLoading ? (
+                    <div>
+                        <Loader />
+                    </div>
+                ) : (
+                    <div className="flex items-center">
+                        <Image
+                            className="mr-2"
+                            src={ethLogo}
+                            width={40}
+                            height={40}
+                            alt="gasPrice"
+                        />
+                        <p className="text-2xl">{gasPrice}</p>
+                    </div>
+                )}
             </div>
         </div>
     );

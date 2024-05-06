@@ -3,68 +3,25 @@ import { FetchedTokens } from "@/components/FetchedTokens";
 import { Loader } from "@/components/UI/Loader";
 import { Pagination } from "@/components/UI/Pagination";
 import { Refresher } from "@/components/UI/Refresher";
-import { useFetching } from "@/hooks/useFetching";
+import { TokensContext } from "@/context";
 import { getPageCount } from "@/hooks/usePagination";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
-    const [tokens, setTokens] = useState([]);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
-    const [upDate, setUpDate] = useState("");
-    const [refresh, setRefresh] = useState(false);
     const [filter, setFilter] = useState("");
-    const [filteredTokens, setFilteredTokens] = useState([]);
-
-    const addTimeStamp = () => {
-        let date = new Date();
-        const lastUpdate = `Last update: ${
-            date.getDate() < 10 ? "0" : ""
-        }${date.getDate()}.${date.getMonth() < 10 ? "0" : ""}${
-            date.getMonth() + 1
-        } at ${date.getHours() < 10 ? "0" : ""}${date.getHours()}:${
-            date.getMinutes() < 10 ? "0" : ""
-        }${date.getMinutes()}`;
-        return lastUpdate;
-    };
-
-    const axios = require("axios");
-    const [fetchTokens, isTokLoading, tokError] = useFetching(
-        async (url: string) => {
-            const response = await axios.get(url);
-            setTokens(response.data);
-            setFilteredTokens(response.data);
-            localStorage.setItem(
-                "fetchedTokens",
-                JSON.stringify(response.data)
-            );
-            const lastUpdate = addTimeStamp();
-            setUpDate(lastUpdate);
-            localStorage.setItem("lastUpdate", JSON.stringify(lastUpdate));
-        }
-    );
+    const {
+        tokens,
+        filteredTokens,
+        setFilteredTokens,
+        isTokLoading,
+        tokError,
+        refresh,
+    } = useContext(TokensContext);
 
     useEffect(() => {
-        const storedTokens: any = localStorage.getItem("fetchedTokens");
-        const lastUpdate: any = localStorage.getItem("lastUpdate");
-        if (storedTokens) {
-            setTokens(JSON.parse(storedTokens));
-            setFilteredTokens(JSON.parse(storedTokens));
-            setUpDate(JSON.parse(lastUpdate));
-        } else {
-            fetchTokens(
-                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc"
-            );
-        }
-    }, []);
-
-    useEffect(() => {
-        if (refresh)
-            fetchTokens(
-                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc"
-            );
-        setRefresh(false);
         setFilter("");
     }, [refresh]);
 
@@ -124,13 +81,6 @@ export default function Home() {
                                 value={filter}
                                 onChange={handleFilterInput}
                                 placeholder="Type here.."
-                            />
-                        </div>
-                        <div className="flex items-center text-cyan-600">
-                            <Refresher
-                                tokError={tokError}
-                                upDate={upDate}
-                                setRefresh={setRefresh}
                             />
                         </div>
                     </div>
