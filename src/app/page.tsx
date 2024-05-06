@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
     const [tokens, setTokens] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(5);
+    const [perPage, setPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [upDate, setUpDate] = useState("");
     const [refresh, setRefresh] = useState(false);
@@ -92,7 +92,7 @@ export default function Home() {
     return (
         <div className="container mx-auto">
             {isTokLoading ? (
-                <div className="flex flex-col p-3 border-solid border-x border-b rounded-b border-cyan-600">
+                <div className="flex flex-col p-3">
                     <Loader />
                 </div>
             ) : (
@@ -104,18 +104,14 @@ export default function Home() {
                         <div className="flex items-center">
                             <p className="mr-2">Show rows:</p>
                             <select
-                                className="p-1 mr-2"
+                                className="p-1 mr-2 border border-solid border-cyan-600 rounded bg-slate-900"
                                 name="count"
                                 onChange={(e: any) =>
                                     setPerPage(e.target.value)
                                 }
                             >
-                                {[5, 10, 15, 20, 25].map((val) => (
-                                    <option
-                                        key={val}
-                                        selected={val == perPage ? true : false}
-                                        value={val}
-                                    >
+                                {[10, 15, 20, 25].map((val: any) => (
+                                    <option key={val} value={val}>
                                         {val}
                                     </option>
                                 ))}
@@ -124,7 +120,7 @@ export default function Home() {
                         <div className="flex items-center">
                             <p className="pr-2">Search for token</p>
                             <input
-                                className="p-1 mr-2"
+                                className="p-1 mr-2 border border-solid border-cyan-600 rounded bg-slate-900"
                                 value={filter}
                                 onChange={handleFilterInput}
                                 placeholder="Type here.."
