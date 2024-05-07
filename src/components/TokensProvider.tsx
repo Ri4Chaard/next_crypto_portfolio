@@ -9,6 +9,7 @@ interface TokensProvider {
 export const TokensProvider = ({ children }: TokensProvider) => {
     const [tokens, setTokens] = useState([]);
     const [filteredTokens, setFilteredTokens] = useState([]);
+    const [globalMarketData, setGlobalMarketData] = useState([]);
     const [upDate, setUpDate] = useState("");
     const [refresh, setRefresh] = useState(false);
 
@@ -30,35 +31,46 @@ export const TokensProvider = ({ children }: TokensProvider) => {
             const response = await axios.get(url);
             setTokens(response.data);
             setFilteredTokens(response.data);
-            localStorage.setItem(
-                "fetchedTokens",
-                JSON.stringify(response.data)
-            );
+            localStorage.setItem("tokens", JSON.stringify(response.data));
             const lastUpdate = addTimeStamp();
             setUpDate(lastUpdate);
             localStorage.setItem("lastUpdate", JSON.stringify(lastUpdate));
         }
     );
+    const [
+        fetchGlobalMarketData,
+        isGlobalMarketDataLoading,
+        globalMarketDataError,
+    ] = useFetching(async (url: string) => {
+        const response = await axios.get(url);
+        setGlobalMarketData(response.data);
+        localStorage.setItem("marketData", JSON.stringify(response.data));
+    });
 
     useEffect(() => {
-        const storedTokens: any = localStorage.getItem("fetchedTokens");
+        const storedTokens: any = localStorage.getItem("tokens");
         const lastUpdate: any = localStorage.getItem("lastUpdate");
+        const storedMarketData: any = localStorage.getItem("marketData");
         if (storedTokens) {
             setTokens(JSON.parse(storedTokens));
             setFilteredTokens(JSON.parse(storedTokens));
+            setGlobalMarketData(JSON.parse(storedMarketData));
             setUpDate(JSON.parse(lastUpdate));
         } else {
             fetchTokens(
                 "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc"
             );
+            fetchGlobalMarketData("https://api.coingecko.com/api/v3/global");
         }
     }, []);
 
     useEffect(() => {
-        if (refresh)
+        if (refresh) {
             fetchTokens(
                 "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc"
             );
+            fetchGlobalMarketData("https://api.coingecko.com/api/v3/global");
+        }
         setRefresh(false);
     }, [refresh]);
 
@@ -70,6 +82,9 @@ export const TokensProvider = ({ children }: TokensProvider) => {
                 setFilteredTokens,
                 isTokLoading,
                 tokError,
+                globalMarketData,
+                isGlobalMarketDataLoading,
+                globalMarketDataError,
                 upDate,
                 refresh,
                 setRefresh,

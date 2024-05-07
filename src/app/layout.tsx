@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import "../styles/nullstyle.css";
 import { TokensProvider } from "@/components/TokensProvider";
 import { HeaderNavbar } from "@/components/HeaderNavbar";
+import { MarketData } from "@/components/MarketData";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -20,6 +21,7 @@ export default function RootLayout({
                 <TokensProvider>
                     <header>
                         <HeaderNavbar />
+                        <MarketData />
                     </header>
                     <main className="w-full flex flex-col flex-grow flex-shrink-0 ">
                         {children}

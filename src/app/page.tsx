@@ -1,8 +1,8 @@
 "use client";
 import { FetchedTokens } from "@/components/FetchedTokens";
+import { MarketData } from "@/components/MarketData";
 import { Loader } from "@/components/UI/Loader";
 import { Pagination } from "@/components/UI/Pagination";
-import { Refresher } from "@/components/UI/Refresher";
 import { TokensContext } from "@/context";
 import { getPageCount } from "@/hooks/usePagination";
 import { useContext, useEffect, useState } from "react";
@@ -18,6 +18,9 @@ export default function Home() {
         setFilteredTokens,
         isTokLoading,
         tokError,
+        globalMarketData,
+        isGlobalMarketDataLoading,
+        globalMarketDataError,
         refresh,
     } = useContext(TokensContext);
 
@@ -31,17 +34,6 @@ export default function Home() {
         setTotalPages(getPageCount(100, perPage));
     }, [perPage]);
 
-    const handleFilterInput = (e: any) => {
-        const searchToken = e.target.value;
-        setFilter(searchToken);
-        const filteredTokens = tokens.filter((token: any) =>
-            token.name.toLowerCase().includes(searchToken.toLowerCase())
-        );
-        setFilteredTokens(filteredTokens);
-        setTotalPages(getPageCount(filteredTokens.length, perPage));
-        setPage(1);
-    };
-
     const changePage = (page: number) => {
         setPage(page);
     };
@@ -54,7 +46,7 @@ export default function Home() {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-3xl font-bold mb-5">
+                    <h1 className="text-3xl font-bold">
                         Cryptocurrency Prices
                     </h1>
                     <div className="flex items-center justify-end text-white p-3 pb-6">

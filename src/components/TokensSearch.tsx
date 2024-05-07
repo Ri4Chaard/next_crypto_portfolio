@@ -36,7 +36,7 @@ export const TokensSearch = () => {
                         setVisible(false);
                     }}
                 />
-                {search.length > 0 && (
+                {visible && search.length > 0 && (
                     <div className="z-10 max-h-96 overflow-y-auto w-[400px] absolute top-9 left-0 border border-solid border-cyan-600 rounded-b bg-slate-900 text-white">
                         {serchedTokens.length ? (
                             serchedTokens.map((token: any) => (
