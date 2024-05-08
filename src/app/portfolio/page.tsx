@@ -49,7 +49,7 @@ export default function page() {
     const [fetchGasPrice, isGasPriceLoading, gasPriceError] = useFetching(
         async () => {
             const gas = await web3.eth.getGasPrice();
-            setGasPrice(Number(web3.utils.fromWei(gas, "ether")));
+            setGasPrice(Number(web3.utils.fromWei(gas, "gwei")));
         }
     );
 
@@ -59,7 +59,7 @@ export default function page() {
             const ethBalance = web3.utils.fromWei(ethBal, "ether");
             let ethBalanceInUSD: number = 0;
             tokens
-                .filter((curr: any) => curr.symbol == "eth")
+                .filter((curr: any) => curr.id == "ethereum")
                 .map(
                     (curr: any) =>
                         (ethBalanceInUSD = +ethBalance * curr.current_price)
@@ -67,7 +67,7 @@ export default function page() {
 
             const tokenBalances: object[] = [
                 {
-                    id: "eth",
+                    id: "ethereum",
                     balance: +ethBalance,
                     balanceInUSD: ethBalanceInUSD,
                 },
@@ -90,7 +90,7 @@ export default function page() {
                 const finres = Number(tokenBal) * 10 ** -Number(decimals);
                 let balOfToken: number = 0;
                 tokens
-                    .filter((curr: any) => curr.symbol == contr.id)
+                    .filter((curr: any) => curr.id == contr.id)
                     .map(
                         (curr: any) =>
                             (balOfToken = finres * curr.current_price)

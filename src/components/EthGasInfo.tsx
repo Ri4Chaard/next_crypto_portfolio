@@ -58,7 +58,10 @@ export const EthGasInfo = ({
                             height={40}
                             alt="gasPrice"
                         />
-                        <p className="text-2xl">{gasPrice}</p>
+                        <p className="text-2xl">
+                            {gasPrice.toFixed(1)}
+                            {" Gwei"}
+                        </p>
                     </div>
                 )}
             </div>

@@ -1,4 +1,5 @@
 import { TokensContext } from "@/context";
+import useOnClickOutside from "@/hooks/useOnClickOutside";
 import {
     ArrowDownRightIcon,
     ArrowUpRightIcon,
@@ -11,6 +12,9 @@ export const TokensSearch = () => {
     const [serchedTokens, setSearchedTokens] = useState(tokens);
     const [search, setSearch] = useState("");
     const [visible, setVisible] = useState(false);
+
+    const ref = useOnClickOutside(() => setVisible(false));
+
     const handleFilterInput = (e: any) => {
         const searchToken = e.target.value;
         setSearch(searchToken);
@@ -23,7 +27,7 @@ export const TokensSearch = () => {
     return (
         <div className="flex items-center">
             <p className="pr-2">Search for token</p>
-            <div className="relative">
+            <div ref={ref} className="relative">
                 <input
                     className="p-1 mr-2 w-[400px] border border-solid border-cyan-600 rounded bg-slate-900"
                     value={search}
@@ -31,9 +35,6 @@ export const TokensSearch = () => {
                     placeholder="Type here.."
                     onFocus={() => {
                         setVisible(true);
-                    }}
-                    onBlur={() => {
-                        setVisible(false);
                     }}
                 />
                 {visible && search.length > 0 && (
@@ -44,6 +45,7 @@ export const TokensSearch = () => {
                                     key={token.id}
                                     className="flex flex-col items-center border-b border-solid border-slate-800 hover:bg-slate-800"
                                     href={`/tokens/${token.id}`}
+                                    onClick={() => setVisible(false)}
                                 >
                                     <div className="flex w-full justify-between items-center px-3 h-24">
                                         <div className="flex flex-row-reverse w-52 justify-end items-center">

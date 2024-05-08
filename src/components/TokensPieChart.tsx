@@ -11,27 +11,27 @@ interface TokensPieChart {
 export const TokensPieChart = ({ tokens }: TokensPieChart) => {
     const colors: { id: string; color: string; borderColor: string }[] = [
         {
-            id: "eth",
+            id: "ethereum",
             color: "#6f749a7a",
             borderColor: "#6f749a",
         },
         {
-            id: "usdt",
+            id: "tether",
             color: "#0293967a",
             borderColor: "#029396",
         },
         {
-            id: "fdusd",
+            id: "first-digital-usd",
             color: "#ffffff7a",
             borderColor: "#ffffff",
         },
         {
-            id: "usdc",
+            id: "usd-coin",
             color: "#2475c77a",
             borderColor: "#2475c7",
         },
         {
-            id: "bnb",
+            id: "binancecoin",
             color: "#ecbb097a",
             borderColor: "#ecbb09",
         },
@@ -41,12 +41,12 @@ export const TokensPieChart = ({ tokens }: TokensPieChart) => {
             borderColor: "#509a45",
         },
         {
-            id: "shib",
+            id: "shiba-inu",
             color: "#ffa4057a",
             borderColor: "#ffa405",
         },
         {
-            id: "link",
+            id: "chainlink",
             color: "#275cdc7a",
             borderColor: "#275cdc",
         },

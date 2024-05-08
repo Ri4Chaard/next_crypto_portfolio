@@ -18,9 +18,11 @@ export const TxList = ({ txList }: TxList) => {
             </div>
             {txList &&
                 txList.map((tx: any) => (
-                    <div
+                    <a
                         key={tx.hash}
-                        className="flex px-3 py-2 justify-between border-b border-solid border-slate-800"
+                        className="flex px-3 py-2 justify-between border-b border-solid border-slate-800 hover:bg-slate-800"
+                        href={`https://etherscan.io/tx/${tx.hash}`}
+                        target="_blank"
                     >
                         <p className="px-2 w-1/6">
                             {tx.hash.slice(0, 5) + "..."}
@@ -37,7 +39,7 @@ export const TxList = ({ txList }: TxList) => {
                             ).toFixed(4)}{" "}
                             ETH
                         </p>
-                    </div>
+                    </a>
                 ))}
         </div>
     );
