@@ -27,7 +27,7 @@ export const EthGasInfo = ({
                 <div className="flex items-center">
                     <img className="w-24 h-24 mr-2" src={ethInfo[0].image} />
                     <p className="text-3xl mr-2">
-                        ${ethInfo[0].current_price.toLocaleString()}
+                        ${ethInfo[0].current_price.toLocaleString("en-US")}
                     </p>
                     {ethInfo[0].price_change_percentage_24h < 0 ? (
                         <ArrowDownRightIcon className="w-5 h-5 text-red-700" />

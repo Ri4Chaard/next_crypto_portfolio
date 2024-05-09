@@ -26,7 +26,6 @@ export default function RootLayout({
                     <main className="w-full flex flex-col flex-grow flex-shrink-0 ">
                         {children}
                     </main>
-                    <footer className="">Footer</footer>
                 </TokensProvider>
             </body>
         </html>

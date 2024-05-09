@@ -7,6 +7,7 @@ import { WalletTokenList } from "./WalletTokenList";
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import { Modal } from "./UI/Modal";
 import { useState } from "react";
+import { Loader } from "./UI/Loader";
 
 interface WalletInfo {
     wallet: any;
@@ -82,7 +83,10 @@ export const WalletInfo = ({
                         </div>
                     </div>
                     {isTxListLoading ? (
-                        <div>Last transactions loading...</div>
+                        <div className="flex font-bold text-xl justify-center items-center">
+                            <p className="mr-3">Last transactions loading...</p>
+                            <Loader />
+                        </div>
                     ) : (
                         <>
                             {txListError ? (

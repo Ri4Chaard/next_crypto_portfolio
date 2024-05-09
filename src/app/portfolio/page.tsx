@@ -9,6 +9,7 @@ import axios from "axios";
 import { WalletInfo } from "@/components/WalletInfo";
 import { PortfolioTopbar } from "@/components/PortfolioTopbar";
 import { TokensContext } from "@/context";
+import { Loader } from "@/components/UI/Loader";
 
 export default function page() {
     const [address, setAddress] = useState("");
@@ -191,11 +192,16 @@ export default function page() {
                     setSelectedWallet={setSelectedWallet}
                 />
                 {isTokLoading ? (
-                    <div>Curr info loading...</div>
+                    <div className="flex font-bold text-xl justify-center items-center h-svh">
+                        <p className="mr-3">Curr info loading...</p> <Loader />
+                    </div>
                 ) : (
                     <>
                         {isWalLoading ? (
-                            <div>Wallet info loading...</div>
+                            <div className="flex font-bold text-xl justify-center items-center h-svh">
+                                <p className="mr-3">Wallet info loading...</p>
+                                <Loader />
+                            </div>
                         ) : (
                             <>
                                 {wallets.map(

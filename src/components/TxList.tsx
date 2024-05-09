@@ -20,7 +20,7 @@ export const TxList = ({ txList }: TxList) => {
                 txList.map((tx: any) => (
                     <a
                         key={tx.hash}
-                        className="flex px-3 py-2 justify-between border-b border-solid border-slate-800 hover:bg-slate-800"
+                        className="text-white flex px-3 py-2 justify-between border-b border-solid border-slate-800 hover:bg-slate-800"
                         href={`https://etherscan.io/tx/${tx.hash}`}
                         target="_blank"
                     >

@@ -36,7 +36,7 @@ export const MarketChart = ({ prices, token }: MarketChart) => {
             },
             title: {
                 display: true,
-                text: "Chart",
+                text: "Price change over the last 30 days (USD)",
             },
         },
         scales: {

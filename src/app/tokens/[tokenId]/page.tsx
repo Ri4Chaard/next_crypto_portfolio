@@ -16,6 +16,7 @@ import ethLogo from "@/icons/eth.png";
 import { Pagination } from "@/components/UI/Pagination";
 import { TokenMarkets } from "@/components/TokenMarkets";
 import { Refresher } from "@/components/UI/Refresher";
+import { ShowRows } from "@/components/UI/ShowRows";
 
 interface TokenInfo {
     params: {
@@ -68,7 +69,7 @@ export default function TokenInfo({ params }: TokenInfo) {
     return (
         <div className="container mx-auto">
             {isTokLoading ? (
-                <div className="flex justify-center h-svh ">
+                <div className="flex justify-center h-svh">
                     <Loader />
                 </div>
             ) : (
@@ -228,30 +229,7 @@ export default function TokenInfo({ params }: TokenInfo) {
                                     <h2 className="text-2xl font-bold">
                                         {token.name} Markets
                                     </h2>
-                                    <div className="flex items-center">
-                                        <p className="pr-2">Show rows:</p>
-                                        <select
-                                            className="p-1 border border-solid rounded border-cyan-600"
-                                            name="count"
-                                            onChange={(e: any) =>
-                                                setPerPage(e.target.value)
-                                            }
-                                        >
-                                            {[10, 15, 20, 25].map((val) => (
-                                                <option
-                                                    key={val}
-                                                    selected={
-                                                        val == perPage
-                                                            ? true
-                                                            : false
-                                                    }
-                                                    value={val}
-                                                >
-                                                    {val}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+                                    <ShowRows setPerPage={setPerPage} />
                                 </div>
 
                                 <TokenMarkets

@@ -20,7 +20,7 @@ export const WalletTokenList = ({ wallet, currInfo }: WalletTokenList) => {
                 (token: any) =>
                     token.balance > 0 && (
                         <div
-                            className="p-2 border-b border-solid border-slate-800 hover:bg-slate-800"
+                            className=" p-2 border-b border-solid border-slate-800 hover:bg-slate-800"
                             key={token.id}
                         >
                             <Link href={`/tokens/${token.id}`}>
@@ -28,7 +28,7 @@ export const WalletTokenList = ({ wallet, currInfo }: WalletTokenList) => {
                                     .filter((curr: any) => curr.id == token.id)
                                     .map((curr: any) => (
                                         <div
-                                            className="flex items-center justify-between"
+                                            className="text-white flex items-center justify-between"
                                             key={curr.id}
                                         >
                                             <div className="w-1/3 flex items-center">

@@ -1,8 +1,8 @@
 "use client";
 import { FetchedTokens } from "@/components/FetchedTokens";
-import { MarketData } from "@/components/MarketData";
 import { Loader } from "@/components/UI/Loader";
 import { Pagination } from "@/components/UI/Pagination";
+import { ShowRows } from "@/components/UI/ShowRows";
 import { TokensContext } from "@/context";
 import { getPageCount } from "@/hooks/usePagination";
 import { useContext, useEffect, useState } from "react";
@@ -50,22 +50,7 @@ export default function Home() {
                         Cryptocurrency Prices
                     </h1>
                     <div className="flex items-center justify-end text-white p-3 pb-6">
-                        <div className="flex items-center">
-                            <p className="mr-2">Show rows:</p>
-                            <select
-                                className="p-1 mr-2 border border-solid border-cyan-600 rounded bg-slate-900"
-                                name="count"
-                                onChange={(e: any) =>
-                                    setPerPage(e.target.value)
-                                }
-                            >
-                                {[10, 15, 20, 25].map((val: any) => (
-                                    <option key={val} value={val}>
-                                        {val}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        <ShowRows setPerPage={setPerPage} />
                     </div>
                     <div className="flex flex-col items-center">
                         <FetchedTokens
