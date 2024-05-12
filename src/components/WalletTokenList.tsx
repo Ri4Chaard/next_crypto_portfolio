@@ -1,3 +1,4 @@
+import { useLocale } from "next-intl";
 import Link from "next/link";
 
 interface WalletTokenList {
@@ -6,6 +7,7 @@ interface WalletTokenList {
 }
 
 export const WalletTokenList = ({ wallet, currInfo }: WalletTokenList) => {
+    const locale = useLocale();
     return (
         <div className="w-full">
             <p className="text-2xl p-3 font-bold border-y border-solid border-slate-800">
@@ -23,7 +25,7 @@ export const WalletTokenList = ({ wallet, currInfo }: WalletTokenList) => {
                             className=" p-2 border-b border-solid border-slate-800 hover:bg-slate-800"
                             key={token.id}
                         >
-                            <Link href={`/tokens/${token.id}`}>
+                            <Link href={`${locale}/tokens/${token.id}`}>
                                 {currInfo
                                     .filter((curr: any) => curr.id == token.id)
                                     .map((curr: any) => (

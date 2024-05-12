@@ -2,6 +2,7 @@ import {
     ArrowDownRightIcon,
     ArrowUpRightIcon,
 } from "@heroicons/react/20/solid";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 
 interface FetchedTokens {
@@ -15,6 +16,7 @@ export const FetchedTokens = ({
     perPage,
     page,
 }: FetchedTokens) => {
+    const locale = useLocale();
     return (
         <>
             <div className="flex justify-between items-center border-y border-solid border-slate-800 px-6 w-full text-slate-400">
@@ -34,7 +36,7 @@ export const FetchedTokens = ({
                     <Link
                         key={token.id}
                         className="flex flex-col items-center w-full border-b border-solid border-slate-800 hover:bg-slate-800"
-                        href={`/tokens/${token.id}`}
+                        href={`${locale}/tokens/${token.id}`}
                     >
                         <div className="flex  justify-between items-center p-6 w-full h-24">
                             <div className="flex flex-row-reverse w-2/6 justify-end items-center">
