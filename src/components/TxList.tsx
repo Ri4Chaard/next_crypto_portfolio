@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 
@@ -5,16 +6,17 @@ interface TxList {
     txList: any;
 }
 export const TxList = ({ txList }: TxList) => {
+    const t = useTranslations("Portfolio");
     return (
         <div className="w-full">
             <p className="p-3 text-2xl font-bold border-y border-solid border-slate-800">
-                Last transactions
+                {t("TXTitle")}
             </p>
             <div className="flex p-3 justify-between border-b border-solid border-slate-800 text-slate-400">
-                <p className="px-2 w-1/6">Hash</p>
-                <p className="px-2 w-1/6">From</p>
-                <p className="px-2 w-1/6">To</p>
-                <p className="px-2 w-1/6 text-right">Value</p>
+                <p className="px-2 w-1/6">{t("TXHash")}</p>
+                <p className="px-2 w-1/6">{t("TXFrom")}</p>
+                <p className="px-2 w-1/6">{t("TXTo")}</p>
+                <p className="px-2 w-1/6 text-right">{t("TXValue")}</p>
             </div>
             {txList &&
                 txList.map((tx: any) => (

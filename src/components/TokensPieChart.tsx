@@ -1,6 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,6 +10,7 @@ interface TokensPieChart {
 }
 
 export const TokensPieChart = ({ tokens }: TokensPieChart) => {
+    const t = useTranslations("Portfolio");
     const colors: { id: string; color: string; borderColor: string }[] = [
         {
             id: "ethereum",
@@ -64,7 +66,7 @@ export const TokensPieChart = ({ tokens }: TokensPieChart) => {
         labels: tokens.map((token: any) => token.id.toUpperCase()),
         datasets: [
             {
-                label: "Balance",
+                label: t("ChartText"),
                 data: tokens.map((token: any) => token.balanceInUSD),
                 backgroundColor: tokens.map(
                     (token: any) =>

@@ -2,7 +2,7 @@ import {
     ArrowDownRightIcon,
     ArrowUpRightIcon,
 } from "@heroicons/react/20/solid";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
 interface FetchedTokens {
@@ -16,19 +16,20 @@ export const FetchedTokens = ({
     perPage,
     page,
 }: FetchedTokens) => {
+    const t = useTranslations("Home");
     const locale = useLocale();
     return (
         <>
             <div className="flex justify-between items-center border-y border-solid border-slate-800 px-6 w-full text-slate-400">
                 <div className="flex flex-row-reverse w-2/6 justify-end items-center">
-                    <h2 className="text-xl text-left">Name</h2>
+                    <h2 className="text-xl text-left">{t("TableName")}</h2>
 
                     <p className="text-xl w-8 mr-5">#</p>
                 </div>
-                <p className="w-1/6 text-right">Current price</p>
+                <p className="w-1/6 text-right">{t("TablePrice")}</p>
 
-                <p className="w-1/6 text-right">Price change</p>
-                <p className="w-2/6 text-right">Market cup</p>
+                <p className="w-1/6 text-right">{t("TablePriceChange")}</p>
+                <p className="w-2/6 text-right">{t("TableMarketCap")}</p>
             </div>
             {filteredTokens
                 .slice(perPage * page - perPage, perPage * page)
@@ -85,7 +86,7 @@ export const FetchedTokens = ({
                 ))}
             {!filteredTokens.length && (
                 <p className="flex justify-center items-center text-3xl h-96">
-                    No tokens found
+                    {t("TableNoTokens")}
                 </p>
             )}
         </>

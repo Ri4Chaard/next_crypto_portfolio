@@ -1,28 +1,34 @@
+import { useTranslations } from "next-intl";
+
 interface TokenMarkets {
     token: any;
     perPage: number;
     page: number;
 }
 export const TokenMarkets = ({ token, perPage, page }: TokenMarkets) => {
+    const t = useTranslations("Token");
     return (
         <>
             <div className="flex flex-col items-center w-full border-y border-solid border-slate-800">
                 <div className="flex justify-between items-center p-6 w-full h-8 text-slate-400">
                     <div className="flex w-1/5 items-center">
                         <p className="mr-2">#</p>
-                        <h3 className="mr-2 font-bold">Exchange</h3>
+                        <h3 className="mr-2 font-bold">{t("TableExch")}</h3>
                     </div>
                     <div className="w-1/5 text-left">
-                        <p>Pair</p>
+                        <p>{t("TablePair")}</p>
                     </div>
                     <div className="w-1/5 text-right">
-                        <p>Price</p>
+                        <p>{t("TablePrice")}</p>
                     </div>
                     <div className="w-1/5 text-right">
-                        <p>Volume{"(24h)"}</p>
+                        <p>
+                            {t("TableVolume")}
+                            {"(24h)"}
+                        </p>
                     </div>
                     <div className="w-1/5 text-right">
-                        <p>Trust score</p>
+                        <p>{t("TableTrust")}</p>
                     </div>
                 </div>
             </div>

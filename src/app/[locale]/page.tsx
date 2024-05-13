@@ -5,15 +5,11 @@ import { Pagination } from "@/components/UI/Pagination";
 import { ShowRows } from "@/components/UI/ShowRows";
 import { TokensContext } from "@/context";
 import { getPageCount } from "@/hooks/usePagination";
-import { useLocale } from "next-intl";
 import { useContext, useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 
 export default function Home() {
-    const t = useTranslations("Index");
-    const l = useLocale();
-    console.log(t("title"));
-    console.log(l);
+    const t = useTranslations("Home");
 
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(10);
@@ -53,9 +49,7 @@ export default function Home() {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-3xl font-bold">
-                        Cryptocurrency Prices
-                    </h1>
+                    <h1 className="text-3xl font-bold">{t("Header")}</h1>
                     <div className="flex items-center justify-end text-white p-3 pb-6">
                         <ShowRows setPerPage={setPerPage} />
                     </div>

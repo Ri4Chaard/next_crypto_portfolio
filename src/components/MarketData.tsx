@@ -3,8 +3,10 @@ import { TokensContext } from "@/context";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useContext } from "react";
 import { Loader } from "./UI/Loader";
+import { useTranslations } from "next-intl";
 
 export const MarketData = () => {
+    const t = useTranslations("MarketData");
     const {
         globalMarketData,
         isGlobalMarketDataLoading,
@@ -20,13 +22,13 @@ export const MarketData = () => {
                 globalMarketData.data && (
                     <>
                         <p>
-                            {"Active cryptocurrencies: "}
-                            <span className="text-white">
+                            {t("ActiveCurr")}
+                            <span className="ml-1 text-white">
                                 {globalMarketData.data.active_cryptocurrencies}
                             </span>
                         </p>
                         <p className="flex items-center">
-                            {"Market cap change: "}
+                            {t("MarketCap")}
                             {globalMarketData.data
                                 .market_cap_change_percentage_24h_usd > 0 ? (
                                 <ChevronUpIcon className="w-5 h-5 text-green-700" />
@@ -50,20 +52,20 @@ export const MarketData = () => {
                         </p>
                         <div className="flex items-center">
                             <p>
-                                {"Upcoming icos: "}
-                                <span className="text-white">
+                                {t("UpIcos")}
+                                <span className="ml-1 text-white">
                                     {globalMarketData.data.upcoming_icos}
                                 </span>
                             </p>
                             <p className="px-3">
-                                {"Ongoing icos: "}{" "}
-                                <span className="text-white">
+                                {t("OnIcos")}{" "}
+                                <span className="ml-1 text-white">
                                     {globalMarketData.data.ongoing_icos}
                                 </span>
                             </p>
                             <p>
-                                {"Ended icos: "}
-                                <span className="text-white">
+                                {t("EndIcos")}
+                                <span className="ml-1 text-white">
                                     {globalMarketData.data.ended_icos}
                                 </span>
                             </p>

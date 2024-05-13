@@ -10,8 +10,10 @@ import { WalletInfo } from "@/components/WalletInfo";
 import { PortfolioTopbar } from "@/components/PortfolioTopbar";
 import { TokensContext } from "@/context";
 import { Loader } from "@/components/UI/Loader";
+import { useTranslations } from "next-intl";
 
 export default function page() {
+    const t = useTranslations("Portfolio");
     const [address, setAddress] = useState("");
     const [wallets, setWallets] = useState<any>([]);
     const [selectedWallet, setSelectedWallet] = useState(0);
@@ -193,13 +195,13 @@ export default function page() {
                 />
                 {isTokLoading ? (
                     <div className="flex font-bold text-xl justify-center items-center h-svh">
-                        <p className="mr-3">Curr info loading...</p> <Loader />
+                        <p className="mr-3">{t("CurrLoading")}</p> <Loader />
                     </div>
                 ) : (
                     <>
                         {isWalLoading ? (
                             <div className="flex font-bold text-xl justify-center items-center h-svh">
-                                <p className="mr-3">Wallet info loading...</p>
+                                <p className="mr-3">{t("WalletLoading")}</p>
                                 <Loader />
                             </div>
                         ) : (

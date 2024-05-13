@@ -1,5 +1,69 @@
 {
-    "Index": {
-        "title": "Hello world!"
+    "Header": {
+        "Main": "Main",
+        "en": "English",
+        "uk": "Ukrainian",
+        "SearchField": "Search for token",
+        "SearchPlaceholder": "Type here...",
+        "NoTokens": "No tokens found",
+        "Portfolio": "Portfolio",
+        "About": "About",
+        "UpdateMsg": "Updated successfully"
+    },
+    "MarketData": {
+        "ActiveCurr": "Active cryptocurrencies:",
+        "MarketCap": "Market cap:",
+        "UpIcos": "Upcoming ICOs:",
+        "OnIcos": "Ongoing ICOs:",
+        "EndIcos": "Ended ICOs:"
+    },
+    "Home": {
+        "Header": "Cryptocurrency Prices",
+        "Rows": "Show rows:",
+        "TableName": "Name",
+        "TablePrice": "Current Price",
+        "TablePriceChange": "Price Change",
+        "TableMarketCap": "Market Cap",
+        "TableNoTokens": "No Tokens Found"
+    },
+    "Token": {
+        "HLPrice": "Highest & Lowest",
+        "Categories": "Categories",
+        "Contract": "Contract",
+        "ChartTitle": "Price change over the last 30 days (USD)",
+        "TableTitle": "Markets",
+        "TableExch": "Exchange",
+        "TablePair": "Pair",
+        "TablePrice": "Price",
+        "TableVolume": "Volume",
+        "TableTrust": "Trust score",
+        "About": "About"
+    },
+    "Portfolio": {
+        "Header": "Your Portfolio",
+        "Overview": "Overview",
+        "WalBalance": "Wallet Balance",
+        "GasPrice": "Gas Price",
+        "ChartText": "Balance",
+        "Add": "Add wallet",
+        "AddHeader": "New Wallet",
+        "AddText": "Enter address of wallet",
+        "AddBtn": "Add Wallet",
+        "AddCancel": "Cancel",
+        "DelText": "Are you sure you want to remove this wallet from your portfolio?",
+        "DelYes": "Yes",
+        "DelNo": "No",
+        "TXTitle": "Last Transactions",
+        "TXHash": "Hash",
+        "TXFrom": "From",
+        "TXTo": "To",
+        "TXValue": "Value",
+        "TokenTitle": "Token Holdings",
+        "TokenName": "Name",
+        "TokenBalance": "Balance",
+        "TokenPrice": "Price",
+        "CurrLoading": "Tokens info loading...",
+        "WalletLoading": "Wallet info loading...",
+        "TXLoading": "Last transactions loading..."
     }
 }

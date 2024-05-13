@@ -5,6 +5,7 @@ import {
     ChevronRightIcon,
     PlusCircleIcon,
 } from "@heroicons/react/20/solid";
+import { useTranslations } from "next-intl";
 
 interface PortfolioTopbar {
     wallets: [];
@@ -23,11 +24,12 @@ export const PortfolioTopbar = ({
     selectedWallet,
     setSelectedWallet,
 }: PortfolioTopbar) => {
+    const t = useTranslations("Portfolio");
     const [modal, setModal] = useState(false);
     return (
         <>
             <div className="p-3 border-x border-b border-solid border-slate-800 flex items-center justify-between">
-                <p className="text-3xl font-bold">Your portfolio</p>
+                <p className="text-3xl font-bold">{t("Header")}</p>
                 <div className="font-bold flex items-center text-xl text-cyan-600">
                     <button
                         className="border-r border-solid border-cyan-600 hover:bg-cyan-600 hover:rounded-l hover:text-white"
@@ -52,14 +54,14 @@ export const PortfolioTopbar = ({
                     className="flex items-center text-green-700 font-bold hover:text-green-500"
                     onClick={() => setModal(!modal)}
                 >
-                    <p className="mr-2">Add wallet</p>
+                    <p className="mr-2">{t("Add")}</p>
                     <PlusCircleIcon className="w-8 h-8" />
                 </button>
             </div>
             <Modal visible={modal} setVisible={() => setModal(false)}>
                 <div className="flex flex-col">
-                    <p className="text-2xl font-bold mb-3">New wallet</p>
-                    <p className="text-xl mb-3">Enter address of wallet</p>
+                    <p className="text-2xl font-bold mb-3">{t("AddHeader")}</p>
+                    <p className="text-xl mb-3">{t("AddText")}</p>
                     <input
                         value={address}
                         type="text"
@@ -75,7 +77,7 @@ export const PortfolioTopbar = ({
                                 setModal(false);
                             }}
                         >
-                            Add wallet
+                            {t("AddBtn")}
                         </button>
                         <button
                             className="self-end"
@@ -83,7 +85,7 @@ export const PortfolioTopbar = ({
                                 setModal(false);
                             }}
                         >
-                            Cancel
+                            {t("AddCancel")}
                         </button>
                     </div>
                 </div>

@@ -1,5 +1,69 @@
 {
-    "Index": {
-        "title": "Привіт світ!"
+    "Header": {
+        "Main": "Головна",
+        "en": "Англійська",
+        "uk": "Українська",
+        "SearchField": "Пошук токена",
+        "SearchPlaceholder": "Писати тут...",
+        "NoTokens": "Токен не знайдено",
+        "Portfolio": "Портфель",
+        "About": "Про застосунок",
+        "UpdateMsg": "Оновлено успішно"
+    },
+    "MarketData": {
+        "ActiveCurr": "Криптовалюти:",
+        "MarketCap": "Ринкова капіталізація:",
+        "UpIcos": "Майбутні ICOs:",
+        "OnIcos": "Ідучі ICOs:",
+        "EndIcos": "Закінчені ICOs:"
+    },
+    "Home": {
+        "Header": "Ціни На Криптовалюту",
+        "Rows": "Рядки:",
+        "TableName": "Назва",
+        "TablePrice": "Поточна Ціна",
+        "TablePriceChange": "Зміна Ціни",
+        "TableMarketCap": "Ринкова Капіталізація",
+        "TableNoTokens": "Токенів не знайдено"
+    },
+    "Token": {
+        "HLPrice": "Найвища & Найнижча",
+        "Categories": "Категорії",
+        "Contract": "Контракт",
+        "ChartTitle": "Зміна ціни за останні 30 днів (USD)",
+        "TableTitle": "Ринки",
+        "TableExch": "Обмін",
+        "TablePair": "Пара",
+        "TablePrice": "Ціна",
+        "TableVolume": "Обсяг",
+        "TableTrust": "Оцінка довіри",
+        "About": "Про"
+    },
+    "Portfolio": {
+        "Header": "Ваш Портфель",
+        "Overview": "Огляд",
+        "WalBalance": "Баланс Гаманця",
+        "GasPrice": "Ціна газу",
+        "ChartText": "Баланс",
+        "Add": "Додати гаманець",
+        "AddHeader": "Новий гаманець",
+        "AddText": "Введіть адресу гаманця",
+        "AddBtn": "Додати гаманець",
+        "AddCancel": "Скасувати",
+        "DelText": "Ви впевнені, що хочете видалити цей гаманець зі свого портфелю?",
+        "DelYes": "Так",
+        "DelNo": "Ні",
+        "TXTitle": "Останні Транзакції",
+        "TXHash": "Хеш",
+        "TXFrom": "Від",
+        "TXTo": "До",
+        "TXValue": "Кількість",
+        "TokenTitle": "Активи",
+        "TokenName": "Назва",
+        "TokenBalance": "Баланс",
+        "TokenPrice": "Ціна",
+        "CurrLoading": "Завантаження інформації про токени...",
+        "WalletLoading": "Завантаження інформації про гаманець...",
+        "TXLoading": "Завантаження останніх транзакцій..."
     }
 }

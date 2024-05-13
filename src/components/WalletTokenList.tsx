@@ -1,4 +1,4 @@
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
 interface WalletTokenList {
@@ -7,16 +7,16 @@ interface WalletTokenList {
 }
 
 export const WalletTokenList = ({ wallet, currInfo }: WalletTokenList) => {
-    const locale = useLocale();
+    const t = useTranslations("Portfolio");
     return (
         <div className="w-full">
             <p className="text-2xl p-3 font-bold border-y border-solid border-slate-800">
-                Token holdings
+                {t("TokenTitle")}
             </p>
             <div className="flex justify-between p-3 border-b border-solid border-slate-800 text-slate-400">
-                <p className="w-1/3">Name</p>
-                <p className="w-1/4 text-right">Balance</p>
-                <p className="w-1/4 text-right">Price</p>
+                <p className="w-1/3">{t("TokenName")}</p>
+                <p className="w-1/4 text-right">{t("TokenBalance")}</p>
+                <p className="w-1/4 text-right">{t("TokenPrice")}</p>
             </div>
             {wallet.tokens.map(
                 (token: any) =>
@@ -25,7 +25,7 @@ export const WalletTokenList = ({ wallet, currInfo }: WalletTokenList) => {
                             className=" p-2 border-b border-solid border-slate-800 hover:bg-slate-800"
                             key={token.id}
                         >
-                            <Link href={`${locale}/tokens/${token.id}`}>
+                            <Link href={`./tokens/${token.id}`}>
                                 {currInfo
                                     .filter((curr: any) => curr.id == token.id)
                                     .map((curr: any) => (

@@ -4,11 +4,14 @@ import {
     ArrowDownRightIcon,
     ArrowUpRightIcon,
 } from "@heroicons/react/20/solid";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useContext, useState } from "react";
 
 export const TokensSearch = () => {
     const { tokens } = useContext(TokensContext);
+    const t = useTranslations("Header");
+    const locale = useLocale();
     const [serchedTokens, setSearchedTokens] = useState(tokens);
     const [search, setSearch] = useState("");
     const [visible, setVisible] = useState(false);
@@ -26,13 +29,13 @@ export const TokensSearch = () => {
 
     return (
         <div className="flex items-center">
-            <p className="pr-2">Search for token</p>
+            <p className="pr-2">{t("SearchField")}</p>
             <div ref={ref} className="relative">
                 <input
                     className="p-1 mr-2 w-[400px] border border-solid border-cyan-600 rounded bg-slate-900"
                     value={search}
                     onChange={handleFilterInput}
-                    placeholder="Type here.."
+                    placeholder={t("SearchPlaceholder")}
                     onFocus={() => {
                         setVisible(true);
                     }}
@@ -44,7 +47,7 @@ export const TokensSearch = () => {
                                 <Link
                                     key={token.id}
                                     className="flex flex-col items-center border-b border-solid border-slate-800 hover:bg-slate-800"
-                                    href={`/tokens/${token.id}`}
+                                    href={`${locale}/tokens/${token.id}`}
                                     onClick={() => setVisible(false)}
                                 >
                                     <div className="flex w-full justify-between items-center px-3 h-24">
@@ -91,7 +94,7 @@ export const TokensSearch = () => {
                         ) : (
                             <div className="flex justify-center">
                                 <p className="w-96 p-3 text-center">
-                                    No tokens found
+                                    {t("NoTokens")}
                                 </p>
                             </div>
                         )}

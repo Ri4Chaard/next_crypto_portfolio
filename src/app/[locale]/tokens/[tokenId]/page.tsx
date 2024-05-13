@@ -17,6 +17,7 @@ import { Pagination } from "@/components/UI/Pagination";
 import { TokenMarkets } from "@/components/TokenMarkets";
 import { Refresher } from "@/components/UI/Refresher";
 import { ShowRows } from "@/components/UI/ShowRows";
+import { useTranslations } from "next-intl";
 
 interface TokenInfo {
     params: {
@@ -24,6 +25,7 @@ interface TokenInfo {
     };
 }
 export default function TokenInfo({ params }: TokenInfo) {
+    const t = useTranslations("Token");
     const [token, setToken] = useState<any>();
     const [marketCharts, setMarketCharts] = useState<any>();
     const [refresh, setRefresh] = useState(false);
@@ -133,7 +135,7 @@ export default function TokenInfo({ params }: TokenInfo) {
                                     </div>
                                     <div className="mb-3">
                                         <p className="text-slate-400">
-                                            Highest & Lowest {" (24h)"}
+                                            {t("HLPrice")} {" (24h)"}
                                         </p>
                                         <div className="flex">
                                             <div className="flex items-center mr-1 text-green-700">
@@ -160,7 +162,7 @@ export default function TokenInfo({ params }: TokenInfo) {
                                     </div>
                                     <div className="mb-3">
                                         <p className="text-slate-400">
-                                            Categories
+                                            {t("Categories")}
                                         </p>
                                         <div className="flex flex-wrap items-center w-2/3">
                                             {token.categories.map(
@@ -175,7 +177,7 @@ export default function TokenInfo({ params }: TokenInfo) {
                                     {token.platforms.ethereum && (
                                         <div className="mb-3">
                                             <p className="text-slate-400">
-                                                Contract
+                                                {t("Contract")}
                                             </p>
                                             <div className="flex items-center">
                                                 <Image
@@ -227,7 +229,7 @@ export default function TokenInfo({ params }: TokenInfo) {
                             <div>
                                 <div className="flex justify-between mb-2">
                                     <h2 className="text-2xl font-bold">
-                                        {token.name} Markets
+                                        {token.name} {t("TableTitle")}
                                     </h2>
                                     <ShowRows setPerPage={setPerPage} />
                                 </div>
@@ -249,7 +251,7 @@ export default function TokenInfo({ params }: TokenInfo) {
                             {token.description.en && (
                                 <div className="">
                                     <h2 className="text-2xl font-bold mb-2">
-                                        About {token.name}
+                                        {t("About")} {token.name}
                                     </h2>
                                     <p
                                         dangerouslySetInnerHTML={{

@@ -8,6 +8,7 @@ import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/20/solid";
 import { Modal } from "./UI/Modal";
 import { useState } from "react";
 import { Loader } from "./UI/Loader";
+import { useTranslations } from "next-intl";
 
 interface WalletInfo {
     wallet: any;
@@ -32,6 +33,7 @@ export const WalletInfo = ({
     deleteWal,
     refreshWal,
 }: WalletInfo) => {
+    const t = useTranslations("Portfolio");
     const [modal, setModal] = useState(false);
 
     return (
@@ -51,7 +53,7 @@ export const WalletInfo = ({
             <div className="flex">
                 <div className="w-1/2 border-r border-solid border-slate-800">
                     <div className="flex flex-col justify-around h-96">
-                        <p className="text-2xl mb-3">Overview</p>
+                        <p className="text-2xl mb-3">{t("Overview")}</p>
                         <div className="flex flex-col  p-3">
                             <div className="flex justify-between">
                                 <Image
@@ -63,7 +65,7 @@ export const WalletInfo = ({
                                 />
                                 <div className="mb-3">
                                     <p className="text-xl text-slate-400 text-right mb-1">
-                                        Wallet balance
+                                        {t("WalBalance")}
                                     </p>
                                     <p className="text-3xl ">
                                         ${wallet.balance.toFixed(4)}
@@ -84,7 +86,7 @@ export const WalletInfo = ({
                     </div>
                     {isTxListLoading ? (
                         <div className="flex font-bold text-xl justify-center items-center">
-                            <p className="mr-3">Last transactions loading...</p>
+                            <p className="mr-3">{t("TXLoading")}</p>
                             <Loader />
                         </div>
                     ) : (
@@ -110,10 +112,7 @@ export const WalletInfo = ({
             </div>
             <Modal visible={modal} setVisible={() => setModal(false)}>
                 <div className="w-96">
-                    <p className="text-xl mb-3 text-center">
-                        Are you sure you want to remove this wallet from your
-                        portfolio?
-                    </p>
+                    <p className="text-xl mb-3 text-center">{t("DelText")}</p>
                     <div className="flex justify-around">
                         <button
                             className="font-bold w-1/2 p-2 mr-2 border border-solid border-cyan-600 rounded hover:border-green-700 hover:bg-green-700 hover:text-slate-900"
@@ -122,13 +121,13 @@ export const WalletInfo = ({
                                 setModal(false);
                             }}
                         >
-                            Yes
+                            {t("DelYes")}
                         </button>
                         <button
                             className="font-bold w-1/2 p-2 border border-solid border-cyan-600 rounded hover:border-red-700 hover:bg-red-700 hover:text-slate-900"
                             onClick={() => setModal(false)}
                         >
-                            No
+                            {t("DelNo")}
                         </button>
                     </div>
                 </div>

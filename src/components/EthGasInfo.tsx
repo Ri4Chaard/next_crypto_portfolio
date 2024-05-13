@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { Loader } from "./UI/Loader";
+import { useTranslations } from "next-intl";
 interface EthGasInfo {
     ethInfo: any;
     gasPrice: number;
@@ -17,11 +18,12 @@ export const EthGasInfo = ({
     gasPriceLoading,
     gasPriceError,
 }: EthGasInfo) => {
+    const t = useTranslations("Portfolio");
     return (
         <div className="flex flex-col p-3 justify-between w-full border-t border-solid border-slate-800">
             <div className="flex justify-between text-xl text-slate-400">
                 <p>Ethereum</p>
-                <p>Gas price</p>
+                <p>{t("GasPrice")}</p>
             </div>
             <div className="flex justify-between">
                 <div className="flex items-center">

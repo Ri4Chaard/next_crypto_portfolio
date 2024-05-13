@@ -1,4 +1,5 @@
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import { useTranslations } from "next-intl";
 
 interface Refresher {
     tokError: any;
@@ -7,12 +8,13 @@ interface Refresher {
 }
 
 export const Refresher = ({ tokError, upDate, setRefresh }: Refresher) => {
+    const t = useTranslations("Header");
     return (
         <>
             {tokError ? (
                 <p className="pr-2 text-red-700">{tokError.message}</p>
             ) : (
-                <p className="pr-2 text-green-700">Updated successfully</p>
+                <p className="pr-2 text-green-700">{t("UpdateMsg")}</p>
             )}
             <p className="pr-2">{upDate}</p>
             <ArrowPathIcon

@@ -10,6 +10,7 @@ import {
     Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
     CategoryScale,
@@ -27,6 +28,7 @@ interface MarketChart {
 }
 
 export const MarketChart = ({ prices, token }: MarketChart) => {
+    const t = useTranslations("Token");
     const options = {
         responsive: true,
         maintainAspectRatio: false,
@@ -36,7 +38,7 @@ export const MarketChart = ({ prices, token }: MarketChart) => {
             },
             title: {
                 display: true,
-                text: "Price change over the last 30 days (USD)",
+                text: t("ChartTitle"),
             },
         },
         scales: {
