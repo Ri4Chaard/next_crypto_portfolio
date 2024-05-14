@@ -49,7 +49,7 @@ export default function Home() {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-3xl font-bold">{t("Header")}</h1>
+                    <h1 className="mt-3 text-3xl font-bold">{t("Header")}</h1>
                     <div className="flex items-center justify-end text-white p-3 pb-6">
                         <ShowRows setPerPage={setPerPage} />
                     </div>

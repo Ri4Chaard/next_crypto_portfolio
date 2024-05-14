@@ -13,7 +13,7 @@ export const MarketData = () => {
         globalMarketDataError,
     } = useContext(TokensContext);
     return (
-        <div className="mb-3 text-slate-400 flex justify-between px-3 py-1 border-b border-solid border-slate-800">
+        <div className=" text-slate-400 flex justify-between px-3 py-1 border-b border-solid border-slate-800">
             {isGlobalMarketDataLoading ? (
                 <div className="w-full">
                     <Loader />

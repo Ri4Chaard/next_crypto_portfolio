@@ -1,8 +1,8 @@
 {
     "Header": {
         "Main": "Головна",
-        "en": "Англійська",
-        "uk": "Українська",
+        "en": "en",
+        "uk": "uk",
         "SearchField": "Пошук токена",
         "SearchPlaceholder": "Писати тут...",
         "NoTokens": "Токен не знайдено",

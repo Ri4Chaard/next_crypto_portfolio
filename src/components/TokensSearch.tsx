@@ -32,7 +32,11 @@ export const TokensSearch = () => {
             <p className="pr-2">{t("SearchField")}</p>
             <div ref={ref} className="relative">
                 <input
-                    className="p-1 mr-2 w-[400px] border border-solid border-cyan-600 rounded bg-slate-900"
+                    className={
+                        visible && search.length > 0
+                            ? "p-1 mr-2 w-[400px] border border-solid border-cyan-600 rounded bg-slate-900"
+                            : "p-1 mr-2 w-32  border border-solid border-cyan-600 rounded bg-slate-900"
+                    }
                     value={search}
                     onChange={handleFilterInput}
                     placeholder={t("SearchPlaceholder")}

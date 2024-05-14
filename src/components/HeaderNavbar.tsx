@@ -14,13 +14,13 @@ export const HeaderNavbar = () => {
     const locale = useLocale();
     return (
         <div className="text-xl text-cyan-600 font-bold py-4 flex justify-between items-center border-b border-solid border-slate-800">
-            <div>
+            <div className="flex">
+                <LocalSwitcher />
                 <Link className="mx-3 hover:text-cyan-400" href={`/${locale}`}>
                     {t("Main")}
                 </Link>
-                <LocalSwitcher />
             </div>
-            <div className="font-normal">
+            <div className="font-normal w-[600px]">
                 <TokensSearch />
             </div>
             <div className="flex items-center">
@@ -31,13 +31,13 @@ export const HeaderNavbar = () => {
                     <WalletIcon className="mr-2 w-8 h-8" />
                     {t("Portfolio")}
                 </Link>
-                <Link
+                {/* <Link
                     className="mx-3 hover:text-cyan-400"
                     href={`/${locale}/about`}
                 >
                     {t("About")}
-                </Link>
-                <div className="mx-3 font-normal flex items-center">
+                </Link> */}
+                <div className="mx-3 text-base font-normal flex items-center">
                     <Refresher
                         tokError={tokError}
                         upDate={upDate}

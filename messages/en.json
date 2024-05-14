@@ -1,8 +1,8 @@
 {
     "Header": {
         "Main": "Main",
-        "en": "English",
-        "uk": "Ukrainian",
+        "en": "en",
+        "uk": "uk",
         "SearchField": "Search for token",
         "SearchPlaceholder": "Type here...",
         "NoTokens": "No tokens found",

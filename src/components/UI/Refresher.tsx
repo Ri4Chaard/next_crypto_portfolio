@@ -14,7 +14,7 @@ export const Refresher = ({ tokError, upDate, setRefresh }: Refresher) => {
             {tokError ? (
                 <p className="pr-2 text-red-700">{tokError.message}</p>
             ) : (
-                <p className="pr-2 text-green-700">{t("UpdateMsg")}</p>
+                <p className="mr-2 w-5 h-5 rounded-[50%] bg-green-700"></p>
             )}
             <p className="pr-2">{upDate}</p>
             <ArrowPathIcon

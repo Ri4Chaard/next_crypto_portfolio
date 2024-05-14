@@ -1,4 +1,5 @@
 "use client";
+import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useTransition } from "react";
@@ -21,13 +22,16 @@ export const LocalSwitcher = () => {
         });
     };
     return (
-        <select
-            defaultValue={localActive}
-            onChange={changeLang}
-            className="bg-slate-900 border border-solid border-cyan-600 rounded"
-        >
-            <option value="en">{t("en")}</option>
-            <option value="uk">{t("uk")}</option>
-        </select>
+        <div className="ml-2 font-normal flex items-center ">
+            <GlobeAltIcon className="w-5 h-5 text-cyan-600 mr-1" />
+            <select
+                defaultValue={localActive}
+                onChange={changeLang}
+                className="bg-slate-900 border border-solid border-cyan-600 rounded"
+            >
+                <option value="en">{t("en")}</option>
+                <option value="uk">{t("uk")}</option>
+            </select>
+        </div>
     );
 };
