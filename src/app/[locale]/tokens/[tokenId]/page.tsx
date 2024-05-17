@@ -167,7 +167,10 @@ export default function TokenInfo({ params }: TokenInfo) {
                                         <div className="flex flex-wrap items-center w-2/3">
                                             {token.categories.map(
                                                 (category: any) => (
-                                                    <span className="text-xs m-1 p-1 bg-cyan-600 border border-solid border-cyan-600 rounded-lg">
+                                                    <span
+                                                        key={category}
+                                                        className="text-xs m-1 p-1 bg-cyan-600 border border-solid border-cyan-600 rounded-lg"
+                                                    >
                                                         {category}
                                                     </span>
                                                 )

@@ -35,7 +35,10 @@ export const TokenMarkets = ({ token, perPage, page }: TokenMarkets) => {
             {token.tickers
                 .slice(perPage * page - perPage, perPage * page)
                 .map((ticker: any, index: number) => (
-                    <div className="flex flex-col items-center w-full border-b border-solid border-slate-800 hover:bg-slate-800">
+                    <div
+                        key={index}
+                        className="flex flex-col items-center w-full border-b border-solid border-slate-800 hover:bg-slate-800"
+                    >
                         <a
                             className="flex  justify-between items-center p-6 w-full h-8"
                             href={ticker.trade_url}
