@@ -12,7 +12,7 @@ import { TokensContext } from "@/context";
 import { Loader } from "@/components/UI/Loader";
 import { useTranslations } from "next-intl";
 
-export default function page() {
+export default function Portfolio() {
     const t = useTranslations("Portfolio");
     const [address, setAddress] = useState("");
     const [wallets, setWallets] = useState<any>([]);
