@@ -192,6 +192,7 @@ export default function Portfolio() {
                     addWallet={getBalanceByAdress}
                     selectedWallet={selectedWallet}
                     setSelectedWallet={setSelectedWallet}
+                    loading={isWalLoading}
                 />
                 {isTokLoading ? (
                     <div className="flex font-bold text-xl justify-center items-center h-svh">
@@ -199,6 +200,16 @@ export default function Portfolio() {
                     </div>
                 ) : (
                     <>
+                        {wallets.length === 0 && !isWalLoading && (
+                            <div className="flex font-bold text-xl justify-center items-center mt-12">
+                                <p className="text-2xl">{t("NoWallets")}</p>
+                            </div>
+                        )}
+                        {walError && (
+                            <div className="flex font-bold text-xl justify-center items-center mt-12">
+                                <p className="text-2xl">{walError.message}</p>
+                            </div>
+                        )}
                         {isWalLoading ? (
                             <div className="flex font-bold text-xl justify-center items-center h-svh">
                                 <p className="mr-3">{t("WalletLoading")}</p>

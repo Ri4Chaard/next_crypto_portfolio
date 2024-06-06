@@ -14,6 +14,7 @@ interface PortfolioTopbar {
     addWallet: any;
     selectedWallet: number;
     setSelectedWallet: any;
+    loading: boolean;
 }
 
 export const PortfolioTopbar = ({
@@ -23,6 +24,7 @@ export const PortfolioTopbar = ({
     addWallet,
     selectedWallet,
     setSelectedWallet,
+    loading,
 }: PortfolioTopbar) => {
     const t = useTranslations("Portfolio");
     const [modal, setModal] = useState(false);
@@ -30,26 +32,35 @@ export const PortfolioTopbar = ({
         <>
             <div className="p-3 border-x border-b border-solid border-slate-800 flex items-center justify-between">
                 <p className="text-3xl font-bold">{t("Header")}</p>
-                <div className="font-bold flex items-center text-xl text-cyan-600">
-                    <button
-                        className="border-r border-solid border-cyan-600 hover:bg-cyan-600 hover:rounded-l hover:text-white"
-                        disabled={selectedWallet == 0}
-                        onClick={() => setSelectedWallet(selectedWallet - 1)}
-                    >
-                        <ChevronLeftIcon className="w-8 h-8" />
-                    </button>
-                    <p className="px-3">
-                        {selectedWallet + 1} <span className="px-1 ">/</span>
-                        {wallets.length}
-                    </p>
-                    <button
-                        className="border-l border-solid border-cyan-600 hover:bg-cyan-600 hover:rounded-r hover:text-white"
-                        disabled={selectedWallet == wallets.length - 1}
-                        onClick={() => setSelectedWallet(selectedWallet + 1)}
-                    >
-                        <ChevronRightIcon className="w-8 h-8" />
-                    </button>
-                </div>
+                {wallets.length > 0 && (
+                    <div className="font-bold flex items-center text-xl text-cyan-600">
+                        <button
+                            className="border-r border-solid border-cyan-600 hover:bg-cyan-600 hover:rounded-l hover:text-white"
+                            disabled={selectedWallet == 0 || loading}
+                            onClick={() =>
+                                setSelectedWallet(selectedWallet - 1)
+                            }
+                        >
+                            <ChevronLeftIcon className="w-8 h-8" />
+                        </button>
+                        <p className="px-3">
+                            {selectedWallet + 1}{" "}
+                            <span className="px-1 ">/</span>
+                            {wallets.length}
+                        </p>
+                        <button
+                            className="border-l border-solid border-cyan-600 hover:bg-cyan-600 hover:rounded-r hover:text-white"
+                            disabled={
+                                selectedWallet == wallets.length - 1 || loading
+                            }
+                            onClick={() =>
+                                setSelectedWallet(selectedWallet + 1)
+                            }
+                        >
+                            <ChevronRightIcon className="w-8 h-8" />
+                        </button>
+                    </div>
+                )}
                 <button
                     className="flex items-center text-green-700 font-bold hover:text-green-500"
                     onClick={() => setModal(!modal)}

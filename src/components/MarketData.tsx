@@ -44,10 +44,10 @@ export const MarketData = () => {
                                         : "text-red-700"
                                 }
                             >
-                                {"$"}
                                 {globalMarketData.data.market_cap_change_percentage_24h_usd.toFixed(
                                     4
                                 )}
+                                {"%"}
                             </span>
                         </p>
                         <div className="flex items-center">

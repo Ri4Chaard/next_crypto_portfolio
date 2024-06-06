@@ -12,7 +12,7 @@
     },
     "MarketData": {
         "ActiveCurr": "Active cryptocurrencies:",
-        "MarketCap": "Market cap:",
+        "MarketCap": "Market cap ($):",
         "UpIcos": "Upcoming ICOs:",
         "OnIcos": "Ongoing ICOs:",
         "EndIcos": "Ended ICOs:"
@@ -64,6 +64,7 @@
         "TokenPrice": "Price",
         "CurrLoading": "Tokens info loading...",
         "WalletLoading": "Wallet info loading...",
-        "TXLoading": "Last transactions loading..."
+        "TXLoading": "Last transactions loading...",
+        "NoWallets": "Your portfolio is empty!"
     }
 }

@@ -51,7 +51,7 @@ export const TokensSearch = () => {
                                 <Link
                                     key={token.id}
                                     className="flex flex-col items-center border-b border-solid border-slate-800 hover:bg-slate-800"
-                                    href={`${locale}/tokens/${token.id}`}
+                                    href={`/${locale}/tokens/${token.id}`}
                                     onClick={() => setVisible(false)}
                                 >
                                     <div className="flex w-full justify-between items-center px-3 h-24">
